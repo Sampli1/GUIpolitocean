@@ -1,0 +1,7 @@
+Flask
+gunicorn 
+vidgear
+opencv-python
+simplejpeg
+joblib
+pyzmq
