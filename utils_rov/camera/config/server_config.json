@@ -6,10 +6,10 @@
         "CAP_PROP_FPS": 60
     },
     {
-        "CAMERA_SOURCE": [0, 1, 2]
+        "CAMERA_SOURCE": [3, 1, 2]
     }
  ],
- "num_cameras": 3,
+ "num_cameras": 1,
 
  "server":
     {

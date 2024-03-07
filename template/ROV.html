@@ -1,0 +1,85 @@
+<div class="wrapper">
+<div class="zoom hide"></div>
+<div class="max">
+    <div class="div1">
+        <div class="container">
+            <div class="title">Camere</div>
+            <div class="elenco">
+                <div class="cat but">
+                    <label>
+                    <input type="checkbox" checked onchange="onoff('camera_0')"><span>Camera 0</span>
+                </label>
+                </div>
+                <div class="cat but">
+                    <label>
+                    <input type="checkbox" checked onchange="onoff('camera_1')"><span>Camera 1</span>
+                </label>
+                </div>
+                <div class="cat but">
+                    <label>
+                    <input type="checkbox" checked onchange="onoff('camera_2')"><span>Camera 2</span>
+                </label>
+                </div>
+            </div>
+        </div>
+        
+
+
+        <div class="container">
+            <div class="title">Sensori</div>
+            <div class="elenco">
+            </div>
+        </div>
+
+
+        <div class="container">
+            <div class="title">Prompt</div>
+            <div class="prompt">
+            </div>
+        </div>
+
+      </div>  
+    <div class="div2">
+        <div class="camera_p">
+            <div id="c0" class="screen" onclick="switching('camera_0')">
+                Camera 0
+                <img  id="camera_0" src="{{ url_for('video_feed', num = 0) }}" />
+            </div>
+        </div>
+    </div>
+    <div class="div3">
+        <div class="camera_s">
+            <div class="screen" id="c1" onclick="switching('camera_1')">
+                Camera 1
+                <img  id="camera_1" src="{{ url_for('video_feed', num = 1) }}"  />
+            </div>
+        </div>
+        <div class="camera_s">
+            <div id="c2" class="screen" onclick="switching('camera_2')">
+                Camera 2
+                <img id="camera_2" src="{{ url_for('video_feed', num = 2) }}" />
+            </div>
+        </div>
+    </div>
+
+
+</div>
+</div>
+
+<!-- <div class="zoom hide"></div>
+<div class="max">
+    <div class="container">
+        <div class="parent">
+        </div>
+        <div class="functions">
+            <div class="on_off">
+                <input type="checkbox" id="checkcamera1" checked onclick="onoff('camera_1')"/>
+                <input type="checkbox" id="checkcamera2" checked onclick="onoff('camera_2')"/>
+                <input type="checkbox" id="checkcamera3" checked onclick="onoff('camera_3')"/>
+            </div>
+            <div class="terminal">
+                <input type="text" onsubmit="submit()"/>
+            </div>
+        </div>
+    </div>
+</div> -->

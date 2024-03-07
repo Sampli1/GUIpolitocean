@@ -1,60 +1,24 @@
 <!DOCTYPE html>
-<html>
-
+<html >
 <head>
-    <title>Camera GUI</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='./GUI.css') }}">
+    <title>Politocean GUI</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='./CSS/GUI.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='./CSS/ROV.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='./CSS/bottoni.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='./CSS/FLOAT.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='./po.png')}}">
 </head>
-
 <body>
-    <div class="zoom hide"></div>
-    <div class="max">
-        <div class="container">
-            <div class="parent">
-                <div class="camera" id="c1">
-                    <img class="screen" id="camera_1" onclick="zoom('camera_1')" src="{{ url_for('video_feed', num = 0) }}" />
-                </div>
-                <div class="camera" id="c2">
-                    <img class="screen"id="camera_2" onclick="zoom('camera_2')" src="{{ url_for('video_feed', num = 1) }}" />
-                </div>
-                <div class="camera" id="c3">
-                    <img class="screen" id="camera_3" onclick="zoom('camera_3')" src="{{ url_for('video_feed', num = 2) }}" />
-                </div>
-            </div>
-            <div class="on_off">
-                <input type="checkbox" id="checkcamera1" checked onclick="onoff('camera_1')"/>
-                <input type="checkbox" id="checkcamera2" checked onclick="onoff('camera_2')"/>
-                <input type="checkbox" id="checkcamera3" checked onclick="onoff('camera_3')"/>
-            </div>
-        </div>
+    <div class="toolbar">
+        <button class="options" onclick="change('ROV')">ROV</button>
+        <button class="options" onclick="change('FLOAT')">FLOAT</button>
     </div>
-</body>
-<script>
-function zoom(id) {
-    let el = document.getElementById(`${id}`);
-    if (el.className != "screen screenzoom") {
-        el.className += " screenzoom";
-        let wh = document.querySelectorAll(".zoom.hide")[0]
-        wh.className = "zoom";
-        let neew = document.createElement("div");
-        neew.className = "zoomed";
-        wh.append(neew);
-        let ex = document.querySelectorAll(".zoomed")[0];
-        ex.append(el);
-    } else {
-        el.className = "screen";
-        el.parentElement.parentElement.className = "zoom hide";
-        el.parentElement.remove();
-        let wh = document.querySelectorAll(`#c${id.match(/\d+/)[0]}`)[0];
-        wh.append(el);
-    }
-}    
+    <div class="window">
 
-function onoff(id) {
-    let el = document.getElementById(`${id}`);
-    if (!el.className.includes("hide")) el.className += " hide";
-    else el.className = "screen";
-}
-</script>
+        <!-- COMPONENTI -->
+
+    </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='./JS/GUI.js')}}" ></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='./JS/FlaskGUI.js')}}" ></script>
+</body>
 </html>

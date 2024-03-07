@@ -8,6 +8,3 @@ def video_feed(num):
     print(num)
     return Response(generate_frames(int(num)), mimetype='multipart/x-mixed-replace; boundary=frame')
 
-
-def zoom():
-    print("cock")

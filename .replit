@@ -1,2 +1,0 @@
-language = "python3" # Define the python version.
-run = "python run.py" # Define the run command.

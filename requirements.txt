@@ -5,3 +5,5 @@ opencv-python
 simplejpeg
 joblib
 pyzmq
+flaskwebgui
+waitress

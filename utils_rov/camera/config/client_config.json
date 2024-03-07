@@ -5,5 +5,5 @@
         "port": ["5555", "5556", "5557"]
     },
 
-    "num_cameras": 3
+    "num_cameras": 1
 }

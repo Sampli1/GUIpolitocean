@@ -1,0 +1,47 @@
+*,  body {
+    margin: 0;
+    padding: 0;
+      -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; 
+}
+
+
+
+:root { 
+    --space-cadet: #252754ff;
+    --white: #FFFFFFff;
+    --ultra-violet: #565673ff;
+    --celestial-blue: #54A0D7ff;
+    --azul: #0970B7ff;
+}
+
+html, body {
+    position:fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
+}
+
+
+.toolbar {
+    display: flex;
+    position: relative;
+    width: 100%;
+    height: 50px;
+    background-color: #565673ff;
+}
+
+
+.window {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
