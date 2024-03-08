@@ -6,6 +6,11 @@ let jsonUrl = fullUrl.replace("JS/GUI.js", "info.json");
 
 
 document.addEventListener('DOMContentLoaded', async function () {
+    let h = window.innerHeight;
+    let w = window.innerWidth;
+    let body = document.getElementsByTagName('body')[0];
+    body.style.width = `${w}px`; 
+    body.style.height = `${h}px`;
     const data = await fetch(jsonUrl, {
         method: 'GET',
         headers: {
@@ -14,6 +19,14 @@ document.addEventListener('DOMContentLoaded', async function () {
     });
     info = await data.json();
 })
+
+addEventListener("resize", (event) => {
+    let h = window.innerHeight;
+    let w = window.innerWidth;
+    let body = document.getElementsByTagName('body')[0];
+    body.style.width = `${w}px`; 
+    body.style.height = `${h}px`;
+});
 
 
 async function change(page) {
@@ -29,7 +42,6 @@ async function change(page) {
 
 function switching(id) {
     let n_camera = `${id.match(/\d+/)[0]}`;
-    console.log(n_camera);
     if (info["cameras"][n_camera]["status"] == 0) return;
     let z = -1;
     for (let i = 0; i < info["n_cameras"] && z == -1; i++) if (info["cameras"][`${i}`]["status"] == 0) z = i;
@@ -50,7 +62,8 @@ function switching(id) {
     camera_p.append(target);
     deploy.append(camera_p.firstElementChild);
 
-    // devi aggiornare i valori del cazzo
+    info["cameras"][n_camera]["status"] = 0;
+    info["cameras"][z]["status"] = 1;
 }
 
 async function onoff(id) {
