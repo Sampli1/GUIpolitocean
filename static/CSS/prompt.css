@@ -1,33 +1,33 @@
-
-.console {
-  font-family: 'Fira Mono';
-  width: 700px;
-  height: 450px;
-  box-sizing: border-box;
-  margin: auto;
+* {
+    margin: 0;
+    padding: 0;
+      -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; 
 }
 
-.console header {
-  border-top-left-radius: 15px;
-  border-top-right-radius: 15px;
-  background-color: #555;
-  height: 45px;
-  line-height: 45px;
-  text-align: center;
-  color: #DDD;
+html, body {
+
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    font-family: -apple-system,system-ui,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji";
 }
 
-.console .consolebody {
-  border-bottom-left-radius: 15px;
-  border-bottom-right-radius: 15px;
-  box-sizing: border-box;
-  padding: 20px;
-  height: calc(100% - 40px);
-  overflow: scroll;
-  background-color: #000;
-  color: #63de00;
+
+.line {
+  color:white
 }
 
-.console .consolebody p {
-  line-height: 1.5rem;
+.stop {
+  color: red !important;
 }
+
+body {
+  overflow-y: auto;
+}
+

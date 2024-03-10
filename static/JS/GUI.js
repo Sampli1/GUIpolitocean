@@ -73,3 +73,32 @@ async function onoff(id) {
     if (info["cameras"][`${id.match(/\d+/)[0]}`]["enabled"] == 1) wh.className = wh.className.replace(" hide", "");
     else wh.className += " hide";
 }
+
+
+function styles(ev){
+    const new_style_element = document.createElement("style");
+    new_style_element.textContent = "html { color: white; }"
+    ev.target.contentDocument.head.appendChild(new_style_element);
+}
+
+
+async function submit(e, el) {
+    // Enter -> send command
+    if (e.keyCode == 13) {  
+        let cmd = el.value; 
+        el.value = "";
+        let elm = document.querySelectorAll(".console")[0];
+        elm.firstChild.remove();
+        let parser = new DOMParser();
+        let html = parser.parseFromString(`<iframe frameborder="0" src="prompt/${cmd}" class="promptt" onload="styles(this)" >
+        </iframe>`, "text/html");
+        elm.append(html.body.firstChild);
+        return;
+    }
+    // Ctrl + C
+    if (e.ctrlKey && e.key.toUpperCase() == 'C') {
+        let elm = document.querySelectorAll(".console")[0];
+        elm.firstChild.textContent += 'END'
+        await fetch('/prompt/interrupt');
+    }
+}

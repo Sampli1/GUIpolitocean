@@ -1,7 +1,10 @@
 from app import app
 import os
 from flaskwebgui import FlaskUI
+import logging
 
+log = logging.getLogger('werkzeug')
+log.setLevel(logging.ERROR)
 
 def start_flask(**server_kwargs):
     app = server_kwargs.pop("app", None)
