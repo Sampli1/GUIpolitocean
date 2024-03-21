@@ -38,7 +38,7 @@
         <div class="camera_p">
             <div id="c0" class="screen" onclick="switching('camera_0')">
                 Camera 0
-                <img  id="camera_0" src="{{ url_for('video_feed', num = 0) }}" />
+                <img  id="camera_0" src="http://10.0.0.254:8082/stream" />
             </div>
         </div>
     </div>
@@ -46,13 +46,13 @@
         <div class="camera_s">
             <div class="screen" id="c1" onclick="switching('camera_1')">
                 Camera 1
-                <img  id="camera_1" src="{{ url_for('video_feed', num = 1) }}"  />
+                <img  id="camera_1" src="http://10.0.0.254:8081/stream"  />
             </div>
         </div>
         <div class="camera_s">
             <div id="c2" class="screen" onclick="switching('camera_2')">
                 Camera 2
-                <img id="camera_2" src="{{ url_for('video_feed', num = 2) }}" />
+                <img id="camera_2" src="http://10.0.0.254:8083/stream" />
             </div>
         </div>
     </div>

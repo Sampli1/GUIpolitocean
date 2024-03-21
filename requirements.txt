@@ -7,3 +7,7 @@ joblib
 pyzmq
 flaskwebgui
 waitress
+paho-mqtt
+PySDL2
+PyYAML
+pyyaml-include

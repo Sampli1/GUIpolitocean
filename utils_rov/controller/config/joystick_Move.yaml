@@ -1,0 +1,53 @@
+buttons:
+  A:
+    onPress: "ROTATE WRIST CCW"
+    onRelease: "STOP WRIST"
+  B:
+    onPress: "OPEN NIPPER"
+    onRelease: "STOP NIPPER"
+  X:
+    onPress: "CLOSE NIPPER"
+    onRelease: "STOP NIPPER"
+  Y:
+    onPress: "ROTATE WRIST CW"
+    onRelease: "STOP WRIST"
+  Back:
+    onPress: "BACK onPress"
+    onRelease:
+  Guide:
+    onPress: "GUIDE onPress"
+    onRelease:
+  Start:
+    onPress: "START onPress"
+    onRelease:
+  LS:
+    onPress: "LS onPress"
+    onRelease:
+  RS:
+    onPress: "STOP_SHOULDER"
+    onRelease: "STOP_SHOULDER"
+  LB:
+    onPress: "SHOULDER_UP"
+    onRelease: "STOP_SHOULDER"
+  RB:
+    onPress: "SHOULDER_DOWN"
+    onRelease: "STOP_SHOULDER"
+  D-Pad-Up:
+    onPress: "SHOULDER_UP"
+    onRelease: "STOP_SHOULDER"
+  D-Pad-Down:
+    onPress: "SHOULDER_DOWN"
+    onRelease: "STOP_SHOULDER"
+  D-Pad-Left:
+    onPress: "ROTATE WRIST CCW"
+    onRelease: "STOP WRIST"
+  D-Pad-Right:
+    onPress: "ROTATE WRIST CW"
+    onRelease: "STOP WRIST"
+axes:
+  LSB-X: "Y"
+  LSB-Y: "X"
+  RSB-X: "SHOULDER"
+  RSB-Y: "WRIST"
+  LT: "Z_DOWN"
+  RT: "Z_UP"
