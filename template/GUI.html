@@ -11,8 +11,8 @@
 <body>
     <div class="all">
         <div class="toolbar">
-            <button class="options" onclick="change('ROV')">ROV</button>
-            <button class="options" onclick="change('FLOAT')">FLOAT</button>
+            <button class="options" id="ROV" onclick="change('ROV')">ROV</button>
+            <button class="options" id="FLOAT" onclick="change('FLOAT')">FLOAT</button>
         </div>
         <div class="window">
 
@@ -22,6 +22,6 @@
     </div>
     <script type="text/javascript" src="{{ url_for('static', filename='./JS/GUI.js')}}" ></script>
     <script type="text/javascript" src="{{ url_for('static', filename='./JS/FlaskGUI.js')}}" ></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='./JS/Prompt.js')}}" ></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='./JS/Float.js')}}" ></script>
 </body>
 </html>

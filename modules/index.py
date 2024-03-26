@@ -1,14 +1,11 @@
-# Import Libraries 
-from utils import getComponentAdress
 from app import app
-from flask import render_template, redirect
+from flask import render_template
 
 
 @app.route("/")
 def main():
     return render_template('GUI.html')
 
-# Define route "/" & "/<name>"
 @app.route("/ROV")
 def gui():
     return render_template("ROV.html")

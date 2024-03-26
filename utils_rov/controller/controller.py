@@ -55,6 +55,7 @@ class ROVController():
         return self.__joystick if self.__configured else None
 
     def __on_axisChanged(self, id, value):
+        print(id, value)
         self.__joystick.axesStates[self.__joystick.commands['axes'][id]] = value
         self.__mqttClient.publish('axes/', json.dumps(self.__joystick.axesStates))
     

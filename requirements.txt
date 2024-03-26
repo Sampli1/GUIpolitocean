@@ -11,3 +11,5 @@ paho-mqtt
 PySDL2
 PyYAML
 pyyaml-include
+pyserial
+matplotlib

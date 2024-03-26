@@ -1,5 +1,4 @@
-<div class="wrapper">
-<div class="zoom hide"></div>
+<div class="wrapper ROV hide">
 <div class="max">
     <div class="div1">
         <div class="container">
@@ -18,7 +17,7 @@
                 <div class="cat but">
                     <label>
                     <input type="checkbox" checked onchange="onoff('camera_2')"><span>Camera 2</span>
-                </label>
+                    </label>
                 </div>
             </div>
         </div>
@@ -26,33 +25,62 @@
 
 
         <div class="container">
-            <div class="title">Sensori</div>
+            <div class="title">Status</div>
             <div class="elenco">
+                <div class="cat status CONTROLLER">
+                    <label>
+                    <span>
+                        Joystick
+                    </span>
+                    </label>    
+                </div>
+                <div class="cat status SERIAL">
+                    <label>
+                    <span>
+                        SERIAL ESP-B
+                    </span>
+                    </label>    
+                </div>
             </div>
         </div>
 
 
+        <div class="container">
+            <div class="title">FLOAT</div>
+            <div class="elenco">
+                <div class="cat status DROP disabled" onclick="drop(this)">
+                    <label>
+                    <span>
+                        DROP
+                    </span>
+                    </label>    
+                </div>
+            </div>
+        </div>
 
       </div>  
     <div class="div2">
         <div class="camera_p">
             <div id="c0" class="screen" onclick="switching('camera_0')">
-                Camera 0
-                <img  id="camera_0" src="http://10.0.0.254:8082/stream" />
+                <div class="title" >Camera 0</div>
+                <!-- <img  id="camera_0" src="http://10.0.0.254:8082/" /> -->
+                <video  id="camera_0" autoplay loop muted src="{{url_for('static',filename= 'rickroll.mp4')}}"type="video/mp4"></video>
             </div>
         </div>
     </div>
     <div class="div3">
         <div class="camera_s">
             <div class="screen" id="c1" onclick="switching('camera_1')">
-                Camera 1
-                <img  id="camera_1" src="http://10.0.0.254:8081/stream"  />
+                <div class="title" >Camera 1</div>
+                <!-- <img  id="camera_1" src="http://10.0.0.254:8081/stream"  /> -->
+                <video  id="camera_1" autoplay="autoplay" muted loop  src="{{url_for('static', filename='rickroll.mp4')}}" type="video/mp4"></video>
             </div>
         </div>
         <div class="camera_s">
             <div id="c2" class="screen" onclick="switching('camera_2')">
-                Camera 2
-                <img id="camera_2" src="http://10.0.0.254:8083/stream" />
+                <div class="title" >Camera 2</div>
+                <!-- <img id="camera_2" src="http://10.0.0.254:8083/stream" /> -->
+                <video  id="camera_2" autoplay loop muted src="{{url_for('static', filename='rickroll.mp4')}}" type="video/mp4"></video>
             </div>
         </div>
     </div>

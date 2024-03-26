@@ -1,24 +1,4 @@
-let page_now = -1;
-let info;
-let script = document.currentScript;
-let fullUrl = script.src;
-let jsonUrl = fullUrl.replace("JS/GUI.js", "info.json");
-
-
-document.addEventListener('DOMContentLoaded', async function () {
-    let h = window.innerHeight;
-    let w = window.innerWidth;
-    let body = document.getElementsByTagName('body')[0];
-    body.style.width = `${w}px`; 
-    body.style.height = `${h}px`;
-    const data = await fetch(jsonUrl, {
-        method: 'GET',
-        headers: {
-            'Accept': 'application/json',
-        },
-    });
-    info = await data.json();
-})
+let page_now;
 
 addEventListener("resize", (event) => {
     let h = window.innerHeight;
@@ -28,15 +8,14 @@ addEventListener("resize", (event) => {
     body.style.height = `${h}px`;
 });
 
-
 async function change(page) {
-    if (info.pages[page] == page_now) return;
-    page_now = info.pages[page];
-    const newpage = await (await fetch(page)).text();
-    let parser = new DOMParser();
-    let html = parser.parseFromString(newpage, "text/html");
-    let wh = document.querySelectorAll(".window")[0];
-    wh.replaceChildren(html.body.firstChild);
+    if (page == page_now) return;
+    if (page_now !== "home") {
+        document.getElementsByClassName(page_now)[0].classList.toggle("hide");
+    }
+    document.getElementsByClassName(page)[0].classList.toggle("hide");
+    page_now = page;
+
 }
 
 
