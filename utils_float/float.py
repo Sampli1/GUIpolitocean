@@ -5,15 +5,12 @@ import matplotlib.pyplot as plt
 import os
 
 
-def plot_pressure_time(json_files):
-    for file_name in json_files:
-        with open(file_name, 'r') as file:
-            data = json.load(file)
-            pressures = data['pressures']
-            times = data['times']
-            
-            plt.plot(times, pressures, label=file_name)
-    
+def plot_pressure_time(json_input):
+    print(json_input)
+    data = json.loads(json_input)
+    pressures = data['pressures']
+    times = data['times']         
+    plt.plot(times, pressures, label='ciao.png')
     plt.xlabel('Time')
     plt.ylabel('Pressure')
     plt.title('Pressure vs Time')
@@ -32,50 +29,51 @@ def start_communication(s: Serial):
             try:
                 s.port = dir
                 s.open()
-                if (status(s)):
+                if (status(s)['status']):
                     return 1
             except SerialException:
                 continue
         return 0
-    
-    
-
-def drop(s:Serial):
-    s.write(b'GO')
-    s.reset_input_buffer()
-    return 1
-    
+     
 
 def status(s:Serial):
     timeout = 2 # secondi
     time_i = time.time()
     try:
-        s.write(b'STATUS')
+        s.write(b'STATUS\n')
         while True:    
-            line = s.readline()
-            if (line.strip() == b'CONNECTED' or line.strip() == b'IMMERSION'):
-                s.reset_input_buffer()
-                return 1
+            line = s.readline().strip()
+            if (line == b'CONNECTED' or line == b'IMMERSION'):
+                return {
+                    'text': line.strip().decode(),
+                    'status': 1
+                }
+            elif (line == b'UPLOAD_DATA'):
+                # Lettura dati
+                while (True):                    
+                    line = s.readline().strip()
+                    if (line == b'STOP_DATA'):
+                        break
+                    plot_pressure_time(line.decode())
+                    
+                return {
+                    'text': "FINISHED",
+                    'status': 1
+                }
+
             if (time.time() - time_i > timeout):
-                return 0
+                return {
+                    'text': "DISCONNECTED",
+                    'status': 0
+                }
+
     except SerialException:
         # USB staccata
         s.close()
-        return 0
+        return {
+            'text': "DISCONNECTED",
+            'status': 0
+        }
 
-def listen(s: Serial):
-    try:
-        while True:
-            line = s.readline()
-            if (line.strip() == b'STOP_DATA'):
-                break
-            print(line)
-        s.close()
-        plot_pressure_time([os.path.dirname(os.path.abspath(__file__)) + "/config/data.json"])
-    except SerialException:
-
-        # USB staccata
-        s.close()
-        return 0
-
-
+def drop(s: Serial):
+    s.write(b'GO\n')
