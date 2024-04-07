@@ -4,8 +4,8 @@ import yaml
 import json
 from yamlinclude import YamlIncludeConstructor
 
-from mqtt import MQTTClient
-from joystick import Joystick
+from utils_rov.controller.mqtt_c import MQTTClient
+from utils_rov.controller.joystick import Joystick
 
 
 __CONFIG_FILENAME__ = "config.yaml"
@@ -13,9 +13,9 @@ __CONFIG_JOYSTICK_KEY__ = "joystick"
 __CONFIG_MQTT_KEY__ = "mqtt"
 
 class ROVController():
-    def __init__(self, path):
+    def __init__(self):
+        path = os.path.join(os.path.dirname(__file__), "config")
         self.__configured = False
-
         YamlIncludeConstructor.add_to_loader_class(
             loader_class=yaml.FullLoader, base_dir=path)
 
@@ -73,3 +73,6 @@ class ROVController():
     def run(self):
         while True:
             self.__joystick.update()
+
+    def status(self):
+        return self.__joystick.status() & self.configured

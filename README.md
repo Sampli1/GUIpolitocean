@@ -1,24 +1,14 @@
-# Gui_camera
-(Temporaneo).
-
-Fatto in Flask, python.
-
+# GUI
+Fatto in Flask.
 Su Linux:
 ```
 python -m venv env
 source ./env/bin/activate
 pip install -r "requirements.txt"
 ```
-
-Se devi far partire le camere
-```
-make run
-```
-Se devi solamente editare la gui
+Per runnare:
 ```
 make test
 ```
 
-
-
-Su Windows non ne ho idea
+Su Windows non ne ho idea e quasi sicuramente non funziona

@@ -9,6 +9,7 @@ class Joystick():
         self.__on_axis_changed = on_axis_changed
         self.__on_button_changed = on_button_changed
         self.__axesStates = dict()
+        self.active = False
         sdl2.SDL_Init(sdl2.SDL_INIT_JOYSTICK)
 
     @property
@@ -31,7 +32,7 @@ class Joystick():
         self.__joystick = sdl2.SDL_JoystickOpen(0)
         print("[...] Loading mappings")
         
-        with open("config/XboxOneController.json") as jmaps:
+        with open("/home/sandro/Desktop/gui_camera/utils_rov/controller/config/XboxOneController.json") as jmaps:
             mappings = json.load(jmaps)
 
             if self.name in mappings:
@@ -76,3 +77,6 @@ class Joystick():
 
             time.sleep(0.03)
             sdl2.ext.get_events().clear()
+
+    def status(self):
+        return self.active

@@ -1,16 +1,11 @@
 from app import app
 from flask import Response, render_template, jsonify, make_response
 import serial
-from utils_float.float import start_communication, drop, listen, status
+from utils_float.float import start_communication, drop, status
+
 
 
 s = serial.Serial()
-
-@app.route('/FLOAT/listen')
-def float_listen():
-    data = {'status': s.is_open}
-    return make_response(jsonify(data), 201)
-
 
 @app.route('/FLOAT/drop')
 def float_go():
@@ -28,7 +23,7 @@ def float_start():
     if (not status):
         data = {'status': status, 'code': 'NO USB'}
         return make_response(jsonify(data), 200)
-    data = {'status': status, 'code': 'SUCCESS'}
+    data = {'status': status, 'code': 'CONNECTED'}
     return make_response(jsonify(data), 201)
 
 
@@ -38,8 +33,14 @@ def float_status():
         data = {'status': False, 'code': 'SERIAL NOT OPENED'}
         return make_response(jsonify(data), 200)
     sts = status(s)
-
-    data = {'status': sts, 'code': 'SUCCESS'}
+    if sts['text'] == "FINISHED":   
+        data = {'status': sts['status'],
+                'code': sts['text'],
+                'data': sts['data']
+                }
+        return make_response(jsonify(data), 201)
+    
+    data = {'status': sts['status'], 'code': sts['text']}
     return make_response(jsonify(data), 201)
 
 @app.route('/FLOAT')

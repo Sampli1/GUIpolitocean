@@ -27,8 +27,9 @@ async function loadPages(page) {
     wh.append(html.body.firstChild);
 }
 
-function statusController() {
-    
+async function statusController() {
+    let response = await fetch("/controller");
+    let status = await response.json();
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
@@ -69,6 +70,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     let refresh = 2000;
     setInterval(statusFLOAT, refresh);
-    setInterval(statusController, refresh);
+    //setInterval(statusController, refresh);
     setInterval(keep_alive_server, interval_request);
 })

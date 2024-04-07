@@ -1,11 +1,42 @@
 <div class="wrapper FLOAT hide">
 
-<div class="cat but">
-    <label>
-    <input type="checkbox" checked onchange="start()"><span>Start Immersion</span>
-</label>
-<span>{{flag}}</span>
-<button onclick="start()">AA</a>
-<button onclick="listen()">BB</a>
-    
+<div class="max_float">
+    <div class="g1">
+    </div>
+    <div class="g2">
+        <div class="container float">
+            <div class="title">FLOAT</div>
+            <div class="elenco">
+                <div class="cat status SERIAL">
+                    <label>
+                    <span>
+                        SERIAL CONNECTION
+                    </span>
+                    </label>    
+                </div>
+                <div class="cat status READY">
+                    <label>
+                    <span>
+                        FLOAT READY
+                    </span>
+                    </label>    
+                </div>
+                <div class="cat status DROP disabled" onclick="drop(this)">
+                    <label>
+                    <span>
+                        DROP
+                    </span>
+                    </label>    
+                </div>
+                <div class="cat status IMMERSION" >
+                    <label>
+                    <span>
+                        IMMERSION
+                    </span>
+                    </label>    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 </div>

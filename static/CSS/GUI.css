@@ -10,6 +10,20 @@
 
 }
 
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+*::-webkit-scrollbar-thumb {
+   background: linear-gradient(to bottom right, #4d7fff 0%, #1a56ff 100%);
+  border-radius: 5px;
+}
+
+*::-webkit-scrollbar-track:horizontal {
+  background-color: white;
+  box-shadow: inset 0 0 2px 2px gainsboro;
+}
 
 
 :root { 
