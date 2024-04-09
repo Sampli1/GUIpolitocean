@@ -15,7 +15,10 @@ __CONFIG_MQTT_KEY__ = "mqtt"
 class ROVController():
     def __init__(self):
         path = os.path.join(os.path.dirname(__file__), "config")
+
         self.__configured = False
+        self.is_running = False
+        
         YamlIncludeConstructor.add_to_loader_class(
             loader_class=yaml.FullLoader, base_dir=path)
 
@@ -70,9 +73,10 @@ class ROVController():
     def __on_mqttStatusChanged(self, status):
        pass
 
-    def run(self):
+    async def run(self):
+        self.is_running = True
         while True:
             self.__joystick.update()
 
     def status(self):
-        return self.__joystick.status() & self.configured
+        return self.__joystick.active

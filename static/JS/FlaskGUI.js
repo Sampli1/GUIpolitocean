@@ -28,8 +28,12 @@ async function loadPages(page) {
 }
 
 async function statusController() {
-    let response = await fetch("/controller");
+    let response = await fetch("/CONTROLLER/start");
     let status = await response.json();
+    const joystick = document.getElementsByClassName("status CONTROLLER")[0];
+    console.log(status);
+    if (status['isRunning']) joystick.classList.add("on")
+    else joystick.classList.remove("on");
 }
 
 document.addEventListener('DOMContentLoaded', async function () {
@@ -59,17 +63,8 @@ document.addEventListener('DOMContentLoaded', async function () {
     page_now = "home";
     
 
-
-    // CALL ESSENTIAL FOR ROV
-
-    // controller.run()
-
-
-    // start with ROV:
-
-
     let refresh = 2000;
     setInterval(statusFLOAT, refresh);
-    //setInterval(statusController, refresh);
+    setInterval(statusController, refresh);
     setInterval(keep_alive_server, interval_request);
 })

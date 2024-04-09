@@ -40,9 +40,12 @@ class Joystick():
             
         for axe in self.__mappings["axes"]:
                 self.__axesStates[axe] = 0
+        
+        self.active = True
 
     def __close(self):
         sdl2.SDL_JoystickClose(self.__joystick)
+        self.active = False
 
     def update(self):
         for event in sdl2.ext.get_events():
