@@ -10,6 +10,7 @@ let pages = ["ROV", "FLOAT"];
 
 
 
+
 async function getRequest(url = '') {
     const response = await fetch(url, {
         method: 'GET',
@@ -43,6 +44,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         getRequest(route);
     }
 
+
     // Costringi a mantenere le dimensioni
     let h = window.innerHeight;
     let w = window.innerWidth;
@@ -65,6 +67,60 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     let refresh = 2000;
     setInterval(statusFLOAT, refresh);
-    setInterval(statusController, refresh);
+    statusController();
     setInterval(keep_alive_server, interval_request);
 })
+
+
+const socket = io("ws://127.0.0.1:5000",{
+    transports: ["websocket"],
+    reconnectionDelayMax: 10000,
+}) 
+
+
+socket.on("connect",() => {
+    console.info("[Socket.io] Ready");
+    socket.emit("test", "test");
+});
+
+socket.on("connect_error", (data) => {
+    console.error("ERROR");
+    console.log(data);
+});
+    
+socket.on("disconnect", (reason, details) => {
+    console.info("DISCONNECTED");
+    console.log(reason);
+    console.log(details);
+});
+
+socket.on('error', (error) => {
+    console.error('ERROR');
+    console.log(error);
+});
+
+const client = mqtt.connect("mqtt://127.0.0.1:8080");
+
+client.on("connect", () => {
+    console.info("[MQTT] Ready");
+    client.subscribe("presence", (err) => {
+        if (!err) {
+        client.publish("test_topic", "Hello mqtt");
+        }
+    });
+    startGraph();
+});
+
+client.on("message", (topic, message) => {
+  // message is Buffer
+  console.log(message.toString());
+  client.end();
+});
+
+client.on('error', (error) => {
+  try {
+    console.error('MQTT Error:', error);
+  } catch (err) {
+    console.error('Error in error handler:', err);
+  }
+});

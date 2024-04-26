@@ -32,42 +32,55 @@ async function statusFLOAT() {
     let status = await response.json();
     const serial = document.getElementsByClassName("status SERIAL")[0];
     const ready = document.getElementsByClassName("status READY")[0];
-    const drop = document.getElementsByClassName("status DROP")[0];
+    const drop = document.getElementsByClassName("status DROP");
     const immersion = document.getElementsByClassName("status IMMERSION")[0];
     if (!status.status) status = await startFloat();
-    console.log(status)
-    switch (status.code) {
-        case "CONNECTED":
-            serial.classList.add("on");
-            break;
-        case "CONNECTED READY":
-            serial.classList.add("on");
-            ready.classList.add("on");
-            drop.classList.add("enabled");
-            drop.classList.remove("disabled");
-            break;
-        case "IMMERSION":
-            drop.classList.remove("enabled");
-            immersion.classList.add("immersion");
-            break;
-        case "FINISHED":
-            immersion.classList.remove("immersion");
-            drop.classList.toggle("on");
-            publishReport(status);
-            break;
-        case "NO USB":
-            console.warn("USB ESP-B NOT FOUND");
+    sts = status.code.split("|");
+    console.log(sts);
+    for (let i = 0; i < sts.length; i++) {
+        switch (sts[i].trim()) {
+            case "CONNECTED":
+                serial.classList.add("on");
+                break;
+
+            case "CONNECTED&READY":
+                serial.classList.add("on");
+                ready.classList.add("on");                
+                for (let i = 0; i < drop.length; i++) drop[i].classList.add("enabled");
+
+                break;
+            case "IMMERSION":
+                for (let i = 0; i < drop.length; i++) drop[i].classList.remove("enabled");
+                
+                immersion.classList.add("immersion");
+                break;
+            case "FINISHED":
+                immersion.classList.remove("immersion");
+                for (let i = 0; i < drop.length; i++) drop[i].classList.add("enabled");
+                publishReport(status);
+                break;
+            case "DATA_ABORTED":
+ 
+                break
+            case "NO USB":
+                console.warn("USB ESP-B NOT FOUND");
+                serial.classList.remove("on");
+                ready.classList.remove("on");
+
+        }
     }
 }
 
 
 
-async function drop(e) {
+
+let msgs = ["GO", "SEND_DATA_ABORT", "SWITCH_AUTO_MODE", "DATA_ABORT", "TRY_UPLOAD"]
+
+async function msg(e, msg_id) {
     if (statuses.every((x) => x == 1)) return;
-    const data = await fetch("FLOAT/drop");
+    const data = await fetch(`FLOAT/msg?msg=${msgs[msg_id]}`);
     if (data.status == 201) {
-        dropped = 1;
-        e.classList.toggle("on");
+        //
     }
     else {
         alert("Is USB cable connected?")

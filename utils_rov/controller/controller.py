@@ -44,7 +44,7 @@ class ROVController():
     def __init_mqttClient(self, config):
         mqttClient = MQTTClient(config["id"], config["address"], config["port"])
         mqttClient.connect()
-        
+         
         return mqttClient
    
     @property
@@ -73,7 +73,7 @@ class ROVController():
     def __on_mqttStatusChanged(self, status):
        pass
 
-    async def run(self):
+    def run(self):
         self.is_running = True
         while True:
             self.__joystick.update()

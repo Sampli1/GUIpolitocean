@@ -61,23 +61,24 @@ function styles(ev){
 }
 
 
-async function submit(e, el) {
-    // Enter -> send command
-    if (e.keyCode == 13) {  
-        let cmd = el.value; 
-        el.value = "";
-        let elm = document.querySelectorAll(".console")[0];
-        elm.firstChild.remove();
-        let parser = new DOMParser();
-        let html = parser.parseFromString(`<iframe frameborder="0" src="prompt/${cmd}" class="promptt" onload="styles(this)" >
-        </iframe>`, "text/html");
-        elm.append(html.body.firstChild);
-        return;
-    }
-    // Ctrl + C
-    if (e.ctrlKey && e.key.toUpperCase() == 'C') {
-        let elm = document.querySelectorAll(".console")[0];
-        elm.firstChild.textContent += 'END'
-        await fetch('/prompt/interrupt');
-    }
-}
+
+// async function submit(e, el) {
+    // // Enter -> send command
+    // if (e.keyCode == 13 && el.value != "") {  
+        // let cmd = el.value; 
+        // el.value = "";
+        // let elm = document.querySelectorAll(".console")[0];
+        // let parser = new DOMParser();
+        // let html = parser.parseFromString(`<p>${cmd}</p></br>`, "text/html");
+        // elm.append(html.body.firstChild);
+        // socket.emit("SSH_command", {cmd: cmd});
+        // return;
+    // }
+// }
+
+// socket.on("SSH_OUTPUT", (data) => {
+    // let elm = document.querySelectorAll(".console")[0];
+    // let parser = new DOMParser();
+    // let html = parser.parseFromString(`<p>${data}</p></br>`, "text/html");
+    // elm.append(html.body.firstChild);
+// })

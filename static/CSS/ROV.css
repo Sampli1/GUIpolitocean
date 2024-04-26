@@ -25,14 +25,33 @@
 .div1 { 
     grid-area: 1 / 9 / 9 / 13; 
     background-color: #101214;
+    gap: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tl {
+    display: flex;
+    flex-direction: row;
+}
+
+
+.div_status { 
+    grid-area: 1 / 1 / 2 / 2;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: start;
     flex-wrap: wrap;
-    gap: 10px;
-    padding: 10px;
 }
+
+.div_sensors {
+    grid-area: 1 / 2 / 2 / 3;
+}
+
+
 
 .container {
     padding: 10px 10px 10px 10px;
@@ -125,7 +144,6 @@ img {
 }
 
 
-
 .div4 { 
     grid-area: 9 / 9 / 13 / 13;
     background-color: #101214;
@@ -134,6 +152,7 @@ img {
     align-items: center;
     flex-direction: column;
     justify-content: start;
+    flex-wrap: wrap;
     position: relative;
 }
 

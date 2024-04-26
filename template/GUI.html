@@ -20,8 +20,12 @@
 
         </div>
     </div>
-    <script type="text/javascript" src="{{ url_for('static', filename='./JS/GUI.js')}}" ></script>
+    <script src="{{url_for('static', filename='./node_modules/socket.io-client/dist/socket.io.js')}}"></script>
+    <script src="{{url_for('static', filename='./node_modules/mqtt/dist/mqtt.min.js')}}"></script>
+    <script src="{{url_for('static', filename='./node_modules/apexcharts/dist/apexcharts.min.js')}}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='./JS/FlaskGUI.js')}}" ></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='./JS/GUI.js')}}" ></script>
     <script type="text/javascript" src="{{ url_for('static', filename='./JS/Float.js')}}" ></script>
-</body>
+    <script type="text/javascript" src="{{ url_for('static', filename='./JS/Sensors.js')}}" ></script>
+ </body>
 </html>

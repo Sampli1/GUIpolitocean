@@ -1,12 +1,14 @@
-from app import app
-from flask import Response, render_template, jsonify, make_response
+from app import app, socketio
+from flask import Response, render_template, jsonify, make_response, request
+from flask_socketio import emit
 from utils_rov.controller.controller import ROVController
-import asyncio
+import threading
 
 
 contr = ROVController()
 
 data = {'status': 0, 'isRunning': 0, 'code': 'CONTROLLER'}
+
 
 @app.route('/CONTROLLER/status')
 def controller_status():
@@ -15,12 +17,12 @@ def controller_status():
     return make_response(jsonify(data), 201)
 
 
+
 @app.route('/CONTROLLER/start')
-def controller():
+async def controller():
     if (contr.configured and not contr.is_running):
-        loop = asyncio.new_event_loop()
-        loop.create_task(contr.run())
-        loop.run_forever()
+        threading.Thread(target=contr.run).start()
+
     data['isRunning'] = contr.status()
     return make_response(jsonify(data), 201)
 
