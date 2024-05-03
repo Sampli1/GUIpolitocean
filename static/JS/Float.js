@@ -35,8 +35,8 @@ async function statusFLOAT() {
     const drop = document.getElementsByClassName("status DROP");
     const immersion = document.getElementsByClassName("status IMMERSION")[0];
     if (!status.status) status = await startFloat();
-    sts = status.code.split("|");
-    console.log(sts);
+    console.log(status);
+    sts = status.text.split("|");
     for (let i = 0; i < sts.length; i++) {
         switch (sts[i].trim()) {
             case "CONNECTED":

@@ -15,7 +15,6 @@ async function change(page) {
     }
     document.getElementsByClassName(page)[0].classList.toggle("hide");
     page_now = page;
-
 }
 
 
@@ -34,13 +33,8 @@ function switching(id) {
             deploy = el;
         }
     });
- 
-    let sub = document.querySelectorAll(".div3");
-
-    console.log(target);
     camera_p.append(target);
     deploy.append(camera_p.firstElementChild);
-
     info["cameras"][n_camera]["status"] = 0;
     info["cameras"][z]["status"] = 1;
 }
@@ -60,25 +54,3 @@ function styles(ev){
     ev.target.contentDocument.head.appendChild(new_style_element);
 }
 
-
-
-// async function submit(e, el) {
-    // // Enter -> send command
-    // if (e.keyCode == 13 && el.value != "") {  
-        // let cmd = el.value; 
-        // el.value = "";
-        // let elm = document.querySelectorAll(".console")[0];
-        // let parser = new DOMParser();
-        // let html = parser.parseFromString(`<p>${cmd}</p></br>`, "text/html");
-        // elm.append(html.body.firstChild);
-        // socket.emit("SSH_command", {cmd: cmd});
-        // return;
-    // }
-// }
-
-// socket.on("SSH_OUTPUT", (data) => {
-    // let elm = document.querySelectorAll(".console")[0];
-    // let parser = new DOMParser();
-    // let html = parser.parseFromString(`<p>${data}</p></br>`, "text/html");
-    // elm.append(html.body.firstChild);
-// })

@@ -2,6 +2,7 @@ import json
 import time
 import sdl2
 import sdl2.ext
+import os
 
 class Joystick():
     def __init__(self, commands, on_axis_changed, on_button_changed):
@@ -32,7 +33,7 @@ class Joystick():
         self.__joystick = sdl2.SDL_JoystickOpen(0)
         print("[...] Loading mappings")
         
-        with open("/home/sandro/Desktop/gui_camera/utils_rov/controller/config/XboxOneController.json") as jmaps:
+        with open(os.path.join(os.path.dirname(__file__), "config/XboxOneController.json")) as jmaps:
             mappings = json.load(jmaps)
 
             if self.name in mappings:

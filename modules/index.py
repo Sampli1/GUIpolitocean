@@ -1,4 +1,4 @@
-from app import app, socketio
+from app import app
 from flask import render_template, request
 
 
@@ -16,9 +16,4 @@ def float():
 
 @app.route("/flaskwebgui-keep-server-alive", methods=["GET"])
 def responde():
-    return '{"content": "mammt"}'
-
-
-@socketio.on('test')
-def suca(json):
-    socketio.emit('ciao', 'ciao')
+    return '{"content": "Nothing"}'

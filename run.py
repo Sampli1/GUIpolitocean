@@ -1,25 +1,27 @@
-from app import app, socketio
+from app import app
 from flaskwebgui import FlaskUI
 import logging
-# from routines import routines
 
 log = logging.getLogger('werkzeug')
 log.setLevel(logging.ERROR)
 
-
-
 if __name__ == "__main__":
-    # DEBUG
-    #socketio.run(app,port=5000)
-
-    # loop = asyncio.new_event_loop()
-    # loop.create_task(routines())
-    # loop.run_forever()
-
+    # NORMAL
     FlaskUI(
         app=app,
-        socketio=socketio,
-        server="flask_socketio",
+        server="flask",
         fullscreen= True,
         port=5000
     ).run()
+    
+
+    # DEBUG SOCKET
+    #socketio.run(app,port=5000)
+    # SOCKET (Maybe in future will be useful)    
+    # FlaskUI(
+        # app=app,
+        # socketio=socketio,
+        # server="flask_socketio",
+        # fullscreen= True,
+        # port=5000
+    # ).run()

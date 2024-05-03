@@ -4,8 +4,8 @@ import yaml
 import json
 from yamlinclude import YamlIncludeConstructor
 
-from utils_rov.controller.mqtt_c import MQTTClient
-from utils_rov.controller.joystick import Joystick
+from .mqtt_c import MQTTClient
+from .joystick import Joystick
 
 
 __CONFIG_FILENAME__ = "config.yaml"

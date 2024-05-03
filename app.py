@@ -8,8 +8,11 @@ app.config['TEMPLATES_AUTO_RELOAD'] = True
 
 
 cors = CORS(app)
-socketio = SocketIO(app, engineio_logger = True, logger=True, debug=True,cors_allowed_origins='*', cors_credentials=False,async_mode='eventlet')
 
 
+# socketio = SocketIO(app, engineio_logger = True, logger=True, debug=True,cors_allowed_origins='*', cors_credentials=False,async_mode='eventlet')
 
+
+import utils_float
+import utils_rov
 import modules

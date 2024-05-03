@@ -59,5 +59,7 @@ span {
 .report {
     width: 70%;
     color: white;
+    display: flex;
+    flex-direction: column;
 }
 
