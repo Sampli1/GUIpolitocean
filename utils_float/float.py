@@ -1,6 +1,6 @@
 from serial import Serial, SerialException
 import json
-import time
+import platform
 import matplotlib.pyplot as plt
 import os
 from io import BytesIO
@@ -27,10 +27,16 @@ def start_communication(s: Serial):
     with open(os.path.dirname(os.path.abspath(__file__)) +"/config/float.json") as jmaps:
         conf = json.load(jmaps)
         s.baudrate = conf['baudrate']
+        sys = platform.system()
+        if "Windows" in sys:
+            dir = f"{conf['portW']}"
+        elif "Linux" in sys:
+            dir = f"{conf['port']}"
+        else:
+            raise AssertionError("Your OS is not supported")
         for i in range(0, 4):
-            dir = f"{conf['port']}{i}"
             try:
-                s.port = dir
+                s.port = f"{dir}{i}"
                 s.open()
                 val = status(s)
                 return val

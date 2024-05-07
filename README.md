@@ -1,7 +1,7 @@
 # GUI EVA
 Developed as a web application using Flask in Python for backend development and HTML, JS, CSS for frontend development. 
 ## Installation (Linux)
-You must have NodeJS and Python
+You must have NodeJS and Python version 3.10
 ```
 python3 -m venv venv
 source ./venv/bin/activate
@@ -9,10 +9,6 @@ pip install -r 'requirements.txt'
 cd ./static
 npm install
 cd ..
-```
-Or
-```
-make install
 ```
 ## Installation (Windows)
 Good luck
