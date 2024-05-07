@@ -1,11 +1,3 @@
-/*
-statuses: [index -> meaning]
-0 -> SERIAL CONNECTED
-1 -> FLOAT READY TO DEPLOY
-2 -> FLOAT IN IMMERSION
-*/
-
-let statuses = [0, 0, 0];
 let nReport = 1;
 
 async function startFloat() {
@@ -70,9 +62,6 @@ async function statusFLOAT() {
         }
     }
 }
-
-
-
 
 let msgs = ["GO", "SEND_DATA_ABORT", "SWITCH_AUTO_MODE", "DATA_ABORT", "TRY_UPLOAD"]
 

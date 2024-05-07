@@ -57,16 +57,17 @@ class ROVController():
     def joystick(self):
         return self.__joystick if self.__configured else None
 
-    def __on_axisChanged(self, id, value):
-        print(id, value)
-        self.__joystick.axesStates[self.__joystick.commands['axes'][id]] = value
-        self.__mqttClient.publish('axes/', json.dumps(self.__joystick.axesStates))
+    def __on_axisChanged(self, id_axes, value):
+        print(id_axes, value)
+        self.__joystick.axesStates[self.__joystick.commands['axes'][id_axes]] = value
+        print(json.dumps(self.__joystick.axesStates))
+        self.__mqttClient.publish('axis/', json.dumps(self.__joystick.axesStates))
     
-    def __on_buttonChanged(self, id, state):
+    def __on_buttonChanged(self, id_button, state):
         if state:
-            command = self.__joystick.commands["buttons"][id]["onPress"]
+            command = self.__joystick.commands["buttons"][id_button]["onPress"]
         else:
-            command = self.__joystick.commands["buttons"][id]["onRelease"]
+            command = self.__joystick.commands["buttons"][id_button]["onRelease"]
 
         self.__mqttClient.publish("commands/", command)
 

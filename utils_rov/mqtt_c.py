@@ -61,7 +61,7 @@ class MQTTClient():
         self.status = MQTTStatus.Disconnected
    
     def __on_message(self, mqttc, obj, msg):
-        mstr = msg.payloaf.decode("utf-8")
+        mstr = msg.payload.decode("utf-8")
 
         if msg.topic in self.__callbacks:
             self.__callbacks[msg.topic](mstr)

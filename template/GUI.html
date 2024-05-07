@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='./CSS/ROV.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='./CSS/bottoni.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='./CSS/FLOAT.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='./CSS/slider.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='./CSS/PID.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='./CSS/switch.css') }}">
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='./po.png')}}">
 </head>
 <body>
@@ -13,6 +16,7 @@
         <div class="toolbar">
             <button class="options" id="ROV" onclick="change('ROV')">ROV</button>
             <button class="options" id="FLOAT" onclick="change('FLOAT')">FLOAT</button>
+            <button class="options" id="PID" onclick="change('PID')">PID</button>
         </div>
         <div class="window">
 
@@ -23,9 +27,10 @@
     <script src="{{url_for('static', filename='./node_modules/socket.io-client/dist/socket.io.js')}}"></script>
     <script src="{{url_for('static', filename='./node_modules/mqtt/dist/mqtt.min.js')}}"></script>
     <script src="{{url_for('static', filename='./node_modules/apexcharts/dist/apexcharts.min.js')}}"></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='./JS/FlaskGUI.js')}}" ></script>
     <script type="text/javascript" src="{{ url_for('static', filename='./JS/GUI.js')}}" ></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='./JS/ROV.js')}}" ></script>
     <script type="text/javascript" src="{{ url_for('static', filename='./JS/Float.js')}}" ></script>
     <script type="text/javascript" src="{{ url_for('static', filename='./JS/Sensors.js')}}" ></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='./JS/PID.js')}}" ></script>
  </body>
 </html>

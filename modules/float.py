@@ -4,6 +4,7 @@ import serial
 from utils_float.float import start_communication, send, status
 
 s = serial.Serial(timeout=2)
+
 data = {'code': "FLOAT", 'status': 0, 'text': "" }
 
 @app.route('/FLOAT/msg')

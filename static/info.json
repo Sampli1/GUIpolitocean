@@ -1,21 +1,18 @@
 {
-    "pages": {
-        "ROV": 0,
-        "FLOAT": 1
+    "mqtt": {
+        "ip": "10.0.0.254:8080",
+        "topics": ["/depth"]
     },
-    "cameras": {
-        "0": {
-            "status": 0,
-            "enabled": 1
-        },
+    "PID": {
         "1": {
-            "status": 1,
-            "enabled": 1
+            "enabled": true,
+            "parameter_1": 40,
+            "parameter_2": 100
         },
         "2": {
-            "status": 1,
-            "enabled": 1
+            "enabled": false,
+            "parameter_1": 90,
+            "parameter_2": 200
         }
-    },
-    "n_cameras": 3
+    }
 }

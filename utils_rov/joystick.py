@@ -1,8 +1,10 @@
 import json
 import time
+import os
 import sdl2
 import sdl2.ext
-import os
+
+__COMMAND_CONFIG_FILE__ = "joystick_Move.yaml"
 
 class Joystick():
     def __init__(self, commands, on_axis_changed, on_button_changed):
@@ -12,6 +14,8 @@ class Joystick():
         self.__axesStates = dict()
         self.active = False
         sdl2.SDL_Init(sdl2.SDL_INIT_JOYSTICK)
+
+        self.__path_mappings = os.path.join(os.path.dirname(__file__), "config/XboxOneController.json")
 
     @property
     def axesStates(self):
@@ -33,15 +37,14 @@ class Joystick():
         self.__joystick = sdl2.SDL_JoystickOpen(0)
         print("[...] Loading mappings")
         
-        with open(os.path.join(os.path.dirname(__file__), "config/XboxOneController.json")) as jmaps:
+        with open(self.__path_mappings, "r") as jmaps:
             mappings = json.load(jmaps)
 
             if self.name in mappings:
                 self.__mappings = mappings[self.name]
-            
-        for axe in self.__mappings["axes"]:
-                self.__axesStates[axe] = 0
         
+        for axe in self.__commands["axes"].values():
+                self.__axesStates[axe] = 0
         self.active = True
 
     def __close(self):
@@ -81,6 +84,7 @@ class Joystick():
 
             time.sleep(0.03)
             sdl2.ext.get_events().clear()
+
 
     def status(self):
         return self.active

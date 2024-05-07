@@ -104,25 +104,14 @@ function startGraph() {
 }
 
 
-const client = mqtt.connect("mqtt://127.0.0.1:8080");
 
-client.on("connect", () => {
-    console.info("[MQTT] Ready");
-    client.subscribe("presence", (err) => {
-        if (!err) {
-            client.publish("test_topic", "Hello mqtt");
-        }
-    });
-    startGraph();
-});
-
-client.on("message", (topic, message) => {
+mqtt_c.on("message", (topic, message) => {
   // message is Buffer
   console.log(message.toString());
-  client.end();
+  mqtt_c.end();
 });
 
-client.on('error', (error) => {
+mqtt_c.on('error', (error) => {
   try {
     console.error('MQTT Error:', error);
   } catch (err) {

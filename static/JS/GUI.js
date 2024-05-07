@@ -1,56 +1,118 @@
-let page_now;
+let info;
+let script = document.currentScript;
+let fullUrl = script.src;
+let jsonUrl = fullUrl.replace("JS/FlaskGUI.js", "info.json");
+let pages = ["ROV", "FLOAT", "PID"];
 
-addEventListener("resize", (event) => {
+
+
+// [UTILS]
+
+async function getRequest(url = '') {
+    const response = await fetch(url, {
+        method: 'GET',
+        cache: 'no-cache',
+        headers: {
+            'Accept': 'application/json',
+        },
+    })
+    return response.json()
+}
+
+
+// Need this to prevent closing of server
+function keep_alive_server() {
+    let route = "/flaskwebgui-keep-server-alive"
+    getRequest(route);
+}
+
+
+// [PAGES]
+async function loadPages(page) {
+    page_now = pages[page];
+    const newpage = await (await fetch(page)).text();
+    let parser = new DOMParser();
+    let html = parser.parseFromString(newpage, "text/html");
+    let wh = document.querySelectorAll(".window")[0];
+    wh.append(html.body.firstChild);
+}
+
+// [CONTROLLER]
+async function statusController() {
+    let response = await fetch("/CONTROLLER/start_status");
+    let status = await response.json();
+    const joystick = document.getElementsByClassName("status CONTROLLER")[0];
+    console.log(status);
+    if (status['status']) joystick.classList.add("on")
+    else joystick.classList.remove("on");
+}
+
+document.addEventListener('DOMContentLoaded', async function () {
+
+    // Force dimensions of window
     let h = window.innerHeight;
     let w = window.innerWidth;
     let body = document.getElementsByTagName('body')[0];
     body.style.width = `${w}px`; 
     body.style.height = `${h}px`;
-});
-
-async function change(page) {
-    if (page == page_now) return;
-    if (page_now !== "home") {
-        document.getElementsByClassName(page_now)[0].classList.toggle("hide");
-    }
-    document.getElementsByClassName(page)[0].classList.toggle("hide");
-    page_now = page;
-}
 
 
-function switching(id) {
-    let n_camera = `${id.match(/\d+/)[0]}`;
-    if (info["cameras"][n_camera]["status"] == 0) return;
-    let z = -1;
-    for (let i = 0; i < info["n_cameras"] && z == -1; i++) if (info["cameras"][`${i}`]["status"] == 0) z = i;
-    let camera_p = document.querySelector(".camera_p");
-    let camera_s = document.querySelectorAll(`.camera_s`);
-    let target, deploy;
-    console.log(camera_s);
-    camera_s.forEach((el) => {
-        if (el.firstElementChild.id == `c${n_camera}`) {
-            target = el.firstElementChild;
-            deploy = el;
+    // Load Info
+    info = getRequest(jsonUrl)
+
+    // Load pages    
+    for (let i = 0; i < pages.length; i++) loadPages(pages[i]);
+    page_now = "home";
+    
+
+
+   
+    
+    // Routines
+    let refresh = 2000;
+    setInterval(statusFLOAT, refresh);
+    setInterval(statusController, refresh);
+    setInterval(keep_alive_server, refresh + 1000);
+})
+
+
+const mqtt_c = mqtt.connect("mqtt://127.0.0.1:8080");
+
+mqtt_c.on("connect", () => {
+    console.info("[MQTT] Ready");
+    mqtt_c.subscribe("presence", (err) => {
+        if (!err) {
+            mqtt_c.publish("test_topic", "Hello mqtt");
         }
     });
-    camera_p.append(target);
-    deploy.append(camera_p.firstElementChild);
-    info["cameras"][n_camera]["status"] = 0;
-    info["cameras"][z]["status"] = 1;
-}
-
-async function onoff(id) {
-    let wh = document.querySelectorAll(`#c${id.match(/\d+/)[0]}`)[0];
-    console.log(wh);
-    info["cameras"][`${id.match(/\d+/)[0]}`]["enabled"] = !info["cameras"][`${id.match(/\d+/)[0]}`]["enabled"];
-    if (info["cameras"][`${id.match(/\d+/)[0]}`]["enabled"] == 1) wh.className = wh.className.replace(" hide", "");
-    else wh.className += " hide";
-}
+});
 
 
-function styles(ev){
-    const new_style_element = document.createElement("style");
-    new_style_element.textContent = "html { color: white; }"
-    ev.target.contentDocument.head.appendChild(new_style_element);
-}
+// const socket = io("ws://127.0.0.1:5000",{
+    // transports: ["websocket"],
+    // reconnectionDelayMax: 10000,
+// }) 
+
+
+// socket.on("connect",() => {
+    // console.info("[Socket.io] Ready");
+    // socket.emit("test", "test");
+// });
+
+// socket.on("connect_error", (data) => {
+    // console.error("ERROR");
+    // console.log(data);
+// });
+    
+// socket.on("disconnect", (reason, details) => {
+    // console.info("DISCONNECTED");
+    // console.log(reason);
+    // console.log(details);
+// });
+
+// socket.on('error', (error) => {
+    // console.error('ERROR');
+    // console.log(error);
+// });
+
 

@@ -34,7 +34,7 @@ make test
 - [ ] Sensors [ Eventually ]
     - [x] Backend
     - [ ] Frontend
-- [x] Migrate from HTTP request to Socket communication [ Optional ]
+- [] Migrate from HTTP request to Socket communication [ Optional ]
     - [ ] Controller
     - [ ] Sensors
 - [ ] Testing
