@@ -58,3 +58,4 @@ urllib3==2.2.1
 waitress==3.0.0
 Werkzeug==3.0.1
 wsproto==1.2.0
+pysdl2-dll

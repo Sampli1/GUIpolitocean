@@ -1,53 +1,53 @@
 buttons:
-  A:
+  B:
     onPress: "ROTATE WRIST CCW"
     onRelease: "STOP WRIST"
-  B:
+  Y:
     onPress: "OPEN NIPPER"
     onRelease: "STOP NIPPER"
-  X:
+  A:
     onPress: "CLOSE NIPPER"
     onRelease: "STOP NIPPER"
-  Y:
+  X:
     onPress: "ROTATE WRIST CW"
     onRelease: "STOP WRIST"
   Back:
-    onPress: "BACK onPress"
+    onPress:
     onRelease:
   Guide:
-    onPress: "GUIDE onPress"
+    onPress:
     onRelease:
   Start:
-    onPress: "START onPress"
+    onPress:
     onRelease:
   LS:
-    onPress: "LS onPress"
+    onPress:
     onRelease:
   RS:
-    onPress: "STOP_SHOULDER"
-    onRelease: "STOP_SHOULDER"
+    onPress: "TORQUE_ON"
+    onRelease: "TORQUE_OFF"
   LB:
-    onPress: "SHOULDER_UP"
-    onRelease: "STOP_SHOULDER"
+    onPress:
+    onRelease:
   RB:
-    onPress: "SHOULDER_DOWN"
-    onRelease: "STOP_SHOULDER"
+    onPress:
+    onRelease:
   D-Pad-Up:
-    onPress: "SHOULDER_UP"
-    onRelease: "STOP_SHOULDER"
+    onPress:
+    onRelease:
   D-Pad-Down:
-    onPress: "SHOULDER_DOWN"
-    onRelease: "STOP_SHOULDER"
+    onPress: 
+    onRelease:
   D-Pad-Left:
-    onPress: "ROTATE WRIST CCW"
-    onRelease: "STOP WRIST"
+    onPress: 
+    onRelease: 
   D-Pad-Right:
-    onPress: "ROTATE WRIST CW"
-    onRelease: "STOP WRIST"
+    onPress: 
+    onRelease:
 axes:
   LSB-X: "Y"
   LSB-Y: "X"
-  RSB-X: "SHOULDER"
-  RSB-Y: "WRIST"
+  RSB-X:
+  RSB-Y:
   LT: "Z_DOWN"
   RT: "Z_UP"

@@ -1,14 +1,14 @@
 var XAXISRANGE = 10000
-var TICKINTERVAL = 1000
-var lastDate = 100
-var data = [];
+var lastDate = [0]
+var data = [[]];
 var options = {
     series: [{
         data: data.slice()
     }],
     chart: {
         id: 'realtime',
-        height: 130,
+        height: 300,
+        width: 400,
         type: 'line',
         toolbar: {
             show: false
@@ -17,19 +17,23 @@ var options = {
             enabled: false
         },
         zoom: {
-            enabled: false
+            enabled: true
         },
         offsetX: 0
     },
     dataLabels: {
-        enabled: true
+        enabled: false
     },
     stroke: {
         curve: 'smooth'
     },
     title: {
         text: 'Tensione 12V',
-        align: 'left'
+        align: 'left',
+        style: {
+            colors: ["#ffffff"],
+            color: "#ffffff"
+        }
     },
     markers: {
         size: 0
@@ -37,7 +41,11 @@ var options = {
     xaxis: {
         type: 'datetime',
         range: XAXISRANGE,
-
+        labels: {
+            style: {
+                colors: ['#ffffff', '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff','#ffffff']
+            }
+        }
     },
     annotations: {
         xaxis: [
@@ -52,37 +60,42 @@ var options = {
         ]
     },
     yaxis: {
-        max: 100
+        max: 5.5,
+        min: -1,
+        labels: {
+            style: {
+                colors: ['#ffffff', '#ffffff','#ffffff','#ffffff','#ffffff','#ffffff']
+            }
+        }
     },
     legend: {
         show: false
-    },
+    }
 };
 
 
 
-
-function getNewSeries(baseval, yrange) {
+var TICKINTERVAL = 1000
+function getNewSeries(baseval, newP, index, data_n) {
+    console.log(data_n)
     var newDate = baseval + TICKINTERVAL;
-    lastDate = newDate
-    for(var i = 0; i< data.length - 10; i++) {
+    lastDate[index] = newDate;
+    for(var i = 0; i < data_n.length - 10; i++) {
         // IMPORTANT
         // we reset the x and y of the data which is out of drawing area
         // to prevent memory leaks
-        data[i].x = newDate - XAXISRANGE - TICKINTERVAL
-        data[i].y = 0
-        data.shift()
+        data_n[i].x = newDate - XAXISRANGE - TICKINTERVAL
+        data_n.shift()
     }
-    data.push({
+    data_n.push({
         x: newDate,
-        y: Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min
+        y: newP
     })
 }
 
 let charts = [];
 
 function startGraph() {
-    let n_charts = 1;
     // charts = [
         // new ApexCharts(document.querySelector("#chart_12v"), {...options, title: {text: "Tensione 12V"}}),
         // new ApexCharts(document.querySelector("#chart_5v"), {...options, title: {text: "Tensione 5V"}}), 
@@ -92,24 +105,32 @@ function startGraph() {
     charts = [ 
         new ApexCharts(document.querySelector("#chart_pres"), {...options, title: {text: "Pressione"}}),
     ]
-    for (let i = 0; i < n_charts; i++) charts[i].render();
-
-    window.setInterval(function () {
-        getNewSeries(lastDate, {
-            min: 10,
-            max: 90
-        });
-        for (let i = 0; i < n_charts; i++) charts[i].updateSeries([{data: data}]);
-    }, 500)
+    for (let i = 0; i < charts.length; i++) charts[i].render();
 }
 
+const mqtt_c = mqtt.connect("mqtt://10.0.0.254:9000");
 
-
-mqtt_c.on("message", (topic, message) => {
-  // message is Buffer
-  console.log(message.toString());
-  mqtt_c.end();
+mqtt_c.on("connect", () => {
+    console.info("[MQTT] Ready");
+    mqtt_c.subscribe("depth/");
+    mqtt_c.subscribe("debug/");
+    startGraph()
 });
+
+mqtt_c.on('message', function (topic, message) {
+    // Ottieni il timestamp attuale in millisecondi
+    let text = message.toString()
+    switch (topic) {
+        case "depth/":
+            console.log(text)
+            console.log(parseFloat(text))
+            getNewSeries(lastDate[0], parseFloat(text), 0, data[0]);
+            charts[0].updateSeries([{data: data[0]}]);
+            break;
+        case "debug/":
+            console.log(text)
+  }
+})
 
 mqtt_c.on('error', (error) => {
   try {

@@ -2,6 +2,7 @@ import os
 import sys
 import yaml
 import json
+import time
 from yamlinclude import YamlIncludeConstructor
 
 from .mqtt_c import MQTTClient
@@ -12,12 +13,29 @@ __CONFIG_FILENAME__ = "config.yaml"
 __CONFIG_JOYSTICK_KEY__ = "joystick"
 __CONFIG_MQTT_KEY__ = "mqtt"
 
+MIN_AXIS = -32768
+
+
 class ROVController():
     def __init__(self):
         path = os.path.join(os.path.dirname(__file__), "config")
 
         self.__configured = False
         self.is_running = False
+        self.last_send_time = 0
+        self.interval = 0.03
+        self.last_value_send = {
+                                "LSB-X": 0,
+                                "LSB-Y": 0,
+                                "LT": MIN_AXIS,
+                                "RT": MIN_AXIS
+                                }
+        self.last_value = {
+                                "LSB-X": 0,
+                                "LSB-Y": 0,
+                                "LT": MIN_AXIS,
+                                "RT": MIN_AXIS
+                                }
         
         YamlIncludeConstructor.add_to_loader_class(
             loader_class=yaml.FullLoader, base_dir=path)
@@ -58,18 +76,31 @@ class ROVController():
         return self.__joystick if self.__configured else None
 
     def __on_axisChanged(self, id_axes, value):
-        print(id_axes, value)
-        self.__joystick.axesStates[self.__joystick.commands['axes'][id_axes]] = value
-        print(json.dumps(self.__joystick.axesStates))
-        self.__mqttClient.publish('axis/', json.dumps(self.__joystick.axesStates))
+        if id_axes not in ['RSB-X', 'RSB-Y']:
+            print(id_axes, value)
+            if((id_axes in ['LSB-X', 'LSB-Y']) and abs(value) < 5000): #zona morta x/y
+                value = 0
+            elif((id_axes in ['LT', 'RT']) and value < -28000): #zona morta z
+                value = -32767
+                
+            if(time.time() - self.last_send_time > self.interval or value == -32768):
+                self.__joystick.axesStates[self.__joystick.commands['axes'][id_axes]] = value
+                print(json.dumps(self.__joystick.axesStates))
+                self.__mqttClient.publish('axes/', json.dumps(self.__joystick.axesStates))
+                self.last_send_time = time.time()
+                self.last_value_send[id_axes] = value
+            self.last_value[id_axes] = value
     
     def __on_buttonChanged(self, id_button, state):
-        if state:
-            command = self.__joystick.commands["buttons"][id_button]["onPress"]
-        else:
-            command = self.__joystick.commands["buttons"][id_button]["onRelease"]
+        if(id_button != "GUIDE"):   #altrimenti quando si preme uno dei due assi crasha
+            if state:
+                command = self.__joystick.commands["buttons"][id_button]["onPress"]
+            else:
+                command = self.__joystick.commands["buttons"][id_button]["onRelease"]
 
-        self.__mqttClient.publish("commands/", command)
+            if command:
+                self.__mqttClient.publish("commands/", command)
+                print(command)
 
     def __on_mqttStatusChanged(self, status):
        pass
@@ -78,6 +109,16 @@ class ROVController():
         self.is_running = True
         while True:
             self.__joystick.update()
+            if time.time() - self.last_send_time*2:
+                for axes, value in self.last_value.items():
+                    if abs(self.last_value_send[axes] - value) > 2000:
+                        self.__joystick.axesStates[self.__joystick.commands['axes'][axes]] = value
+                        print(json.dumps(self.__joystick.axesStates))
+                        self.__mqttClient.publish('axes/', json.dumps(self.__joystick.axesStates))
+                        self.last_send_time = time.time()
+                        self.last_value_send[axes] = value
+                        break
+                        
 
     def status(self):
         return self.__joystick.active

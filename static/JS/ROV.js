@@ -40,6 +40,7 @@ function switching(id) {
 async function onoff(id) {
     let wh = document.querySelectorAll(`#c${id.match(/\d+/)[0]}`)[0];
     console.log(wh);
+    console.log(info)
     info["cameras"][`${id.match(/\d+/)[0]}`]["enabled"] = !info["cameras"][`${id.match(/\d+/)[0]}`]["enabled"];
     if (info["cameras"][`${id.match(/\d+/)[0]}`]["enabled"] == 1) wh.className = wh.className.replace(" hide", "");
     else wh.className += " hide";

@@ -1,13 +1,11 @@
 let info;
 let script = document.currentScript;
 let fullUrl = script.src;
-let jsonUrl = fullUrl.replace("JS/FlaskGUI.js", "info.json");
+let jsonUrl = fullUrl.replace("JS/GUI.js", "info.json");
 let pages = ["ROV", "FLOAT", "PID"];
 
 
-
 // [UTILS]
-
 async function getRequest(url = '') {
     const response = await fetch(url, {
         method: 'GET',
@@ -18,6 +16,19 @@ async function getRequest(url = '') {
     })
     return response.json()
 }
+
+async function postRequest(url, data) {
+    const response = await fetch(url, {
+        method: 'POST',
+        cache: 'no-cache',
+        headers: {
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    return response.json()
+}
+
 
 
 // Need this to prevent closing of server
@@ -57,8 +68,12 @@ document.addEventListener('DOMContentLoaded', async function () {
     body.style.height = `${h}px`;
 
 
+    console.log(jsonUrl)
+
     // Load Info
-    info = getRequest(jsonUrl)
+    info = await getRequest(jsonUrl)
+
+    console.log(info)
 
     // Load pages    
     for (let i = 0; i < pages.length; i++) loadPages(pages[i]);
@@ -76,16 +91,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 })
 
 
-const mqtt_c = mqtt.connect("mqtt://127.0.0.1:8080");
-
-mqtt_c.on("connect", () => {
-    console.info("[MQTT] Ready");
-    mqtt_c.subscribe("presence", (err) => {
-        if (!err) {
-            mqtt_c.publish("test_topic", "Hello mqtt");
-        }
-    });
-});
 
 
 // const socket = io("ws://127.0.0.1:5000",{

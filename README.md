@@ -11,7 +11,7 @@ npm install
 cd ..
 ```
 ## Installation (Windows)
-Good luck
+Good luck, Useless
 ## Usage
 ```
 source ./venv/bin/activate
@@ -27,14 +27,11 @@ make test
     - [x] Frontend
     - [x] Backend
     - [x] MQTT connection tests
-- [ ] Sensors [ Eventually ]
+- [x] Sensors [ Eventually ]
     - [x] Backend
-    - [ ] Frontend
-- [] Migrate from HTTP request to Socket communication [ Optional ]
-    - [ ] Controller
-    - [ ] Sensors
-- [ ] Testing
-- [ ] Documentation
+    - [x] Frontend
+- [x] Testing
+- [x] Documentation
 
 ## PROBLEMS
 * Never tested on Windows
