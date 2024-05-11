@@ -5,7 +5,7 @@ import paramiko
 from dotenv import load_dotenv
 import threading 
 
-load_dotenv()
+# load_dotenv()
 
 # client = paramiko.SSHClient()
 # client.set_missing_host_key_policy(paramiko.AutoAddPolicy()) 
