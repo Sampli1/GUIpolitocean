@@ -58,8 +58,7 @@ async function statusController() {
     else joystick.classList.remove("on");
 }
 
-document.addEventListener('DOMContentLoaded', async function () {
-
+window.onload = async () => {
     // Force dimensions of window
     let h = window.innerHeight;
     let w = window.innerWidth;
@@ -67,30 +66,23 @@ document.addEventListener('DOMContentLoaded', async function () {
     body.style.width = `${w}px`; 
     body.style.height = `${h}px`;
 
-
-    console.log(jsonUrl)
-
     // Load Info
-    info = await getRequest(jsonUrl)
+    info = await getRequest(jsonUrl);
 
     console.log(info)
 
     // Load pages    
     for (let i = 0; i < pages.length; i++) loadPages(pages[i]);
     page_now = "home";
-    
+       
+    // loadProfile(1)
 
-
-   
-    
     // Routines
     let refresh = 2000;
     setInterval(statusFLOAT, refresh);
     setInterval(statusController, refresh);
     setInterval(keep_alive_server, refresh + 1000);
-})
-
-
+}
 
 
 // const socket = io("ws://127.0.0.1:5000",{

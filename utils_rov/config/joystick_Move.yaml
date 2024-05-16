@@ -47,7 +47,7 @@ buttons:
 axes:
   LSB-X: "Y"
   LSB-Y: "X"
-  RSB-X:
+  RSB-X: "YAW"
   RSB-Y:
   LT: "Z_DOWN"
   RT: "Z_UP"

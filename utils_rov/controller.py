@@ -27,12 +27,14 @@ class ROVController():
         self.last_value_send = {
                                 "LSB-X": 0,
                                 "LSB-Y": 0,
+                                "RSB-X" : 0,
                                 "LT": MIN_AXIS,
                                 "RT": MIN_AXIS
                                 }
         self.last_value = {
                                 "LSB-X": 0,
                                 "LSB-Y": 0,
+                                "RSB-X" : 0,
                                 "LT": MIN_AXIS,
                                 "RT": MIN_AXIS
                                 }
@@ -76,11 +78,11 @@ class ROVController():
         return self.__joystick if self.__configured else None
 
     def __on_axisChanged(self, id_axes, value):
-        if id_axes not in ['RSB-X', 'RSB-Y']:
+        if id_axes not in ['RSB-Y']:
             print(id_axes, value)
-            if((id_axes in ['LSB-X', 'LSB-Y']) and abs(value) < 5000): #zona morta x/y
+            if((id_axes in ['LSB-X', 'LSB-Y', 'RSB-X']) and abs(value) < 4000): #zona morta x/y/yaw
                 value = 0
-            elif((id_axes in ['LT', 'RT']) and value < -28000): #zona morta z
+            elif((id_axes in ['LT', 'RT']) and value < -30000): #zona morta z
                 value = -32767
                 
             if(time.time() - self.last_send_time > self.interval or value == -32768):

@@ -16,6 +16,7 @@ class Joystick():
         self.__axesStates = {
                                 "X" : 0,
                                 "Y": 0,
+                                "YAW" : 0,
                                 "Z_UP": MIN_AXIS,
                                 "Z_DOWN": MIN_AXIS
                                 }

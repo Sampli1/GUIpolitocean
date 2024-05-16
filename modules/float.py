@@ -3,7 +3,7 @@ from flask import jsonify, make_response, request
 import serial
 from utils_float.float import start_communication, send, status
 
-s = serial.Serial(timeout=2)
+s = serial.Serial(timeout= 10)
 
 data = {'code': "FLOAT", 'status': 0, 'text': "" }
 

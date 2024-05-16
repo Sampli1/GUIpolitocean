@@ -174,16 +174,6 @@ img {
     height: calc(100% - 25px);
 }
 
-.input {
-  color: white;
-  width: calc(100% - 6px);
-  height: 15px;
-  font-size: 15px;
-  border: none transparent;
-  outline: none;
-  padding: 3px;
-  background-color: #101214;
-}
 
 .console {
   height: calc(100% - 20px);  

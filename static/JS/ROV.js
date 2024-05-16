@@ -20,11 +20,10 @@ function switching(id) {
     let n_camera = `${id.match(/\d+/)[0]}`;
     if (info["cameras"][n_camera]["status"] == 0) return;
     let z = -1;
-    for (let i = 0; i < info["n_cameras"] && z == -1; i++) if (info["cameras"][`${i}`]["status"] == 0) z = i;
+    for (let i = 0; i < info["cameras"]["n_cameras"] && z == -1; i++) if (info["cameras"][`${i}`]["status"] == 0) z = i;
     let camera_p = document.querySelector(".camera_p");
     let camera_s = document.querySelectorAll(`.camera_s`);
     let target, deploy;
-    console.log(camera_s);
     camera_s.forEach((el) => {
         if (el.firstElementChild.id == `c${n_camera}`) {
             target = el.firstElementChild;

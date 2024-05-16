@@ -33,6 +33,8 @@ async function statusFLOAT() {
         switch (sts[i].trim()) {
             case "CONNECTED":
                 serial.classList.add("on");
+                ready.classList.remove("on");                
+                for (let i = 0; i < drop.length; i++) drop[i].classList.remove("enabled");
                 break;
 
             case "CONNECTED&READY":
@@ -52,12 +54,13 @@ async function statusFLOAT() {
                 publishReport(status);
                 break;
             case "DATA_ABORTED":
- 
+                
                 break
             case "NO USB":
                 console.warn("USB ESP-B NOT FOUND");
                 serial.classList.remove("on");
                 ready.classList.remove("on");
+                for (let i = 0; i < drop.length; i++) drop[i].classList.remove("enabled");
 
         }
     }
@@ -66,7 +69,6 @@ async function statusFLOAT() {
 let msgs = ["GO", "SEND_DATA_ABORT", "SWITCH_AUTO_MODE", "DATA_ABORT", "TRY_UPLOAD"]
 
 async function msg(e, msg_id) {
-    if (statuses.every((x) => x == 1)) return;
     const data = await fetch(`FLOAT/msg?msg=${msgs[msg_id]}`);
     if (data.status == 201) {
         //

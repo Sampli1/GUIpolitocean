@@ -1,19 +1,23 @@
 from serial import Serial, SerialException
 import json
+import time
 import platform
 import matplotlib.pyplot as plt
+from datetime import datetime
 import os
 from io import BytesIO
 import base64
 
+
+
 def plot_pressure_time(data):
-    pressures = data['pressures']
-    times = data['times']         
-    plt.plot(times, pressures)
+    depth = data['depth']
+    time = data['times']    
+    plt.plot(time, depth)
     plt.xlabel('Time')
-    plt.ylabel('Pressure')
-    plt.title('Pressure vs Time')
+    plt.ylabel('Depth (m)')
     plt.grid()
+    plt.gcf().autofmt_xdate()
     buffer = BytesIO()
     plt.savefig(buffer, format='png')
     buffer.seek(0)
@@ -28,12 +32,7 @@ def start_communication(s: Serial):
         conf = json.load(jmaps)
         s.baudrate = conf['baudrate']
         sys = platform.system()
-        if "Windows" in sys:
-            dir = f"{conf['portW']}"
-        elif "Linux" in sys:
-            dir = f"{conf['port']}"
-        else:
-            raise AssertionError("Your OS is not supported")
+        dir = f"{conf['port']}"
         for i in range(0, 4):
             try:
                 s.port = f"{dir}{i}"
@@ -48,29 +47,44 @@ def start_communication(s: Serial):
         }
      
 
+
 def status(s:Serial):
     try:
+        s.reset_output_buffer()
         s.write(b'STATUS\n')
         line = s.read_until().strip()
-        if (line == b'UPLOAD_DATA'):
+        if (b'UPLOAD_DATA' in line):
             # Lettura dati
-            s.write(b"LISTENING")
+            s.reset_input_buffer()
+            s.write(b"LISTENING\n")
             times = []
-            pressures = []
-            while (True):                    
-                line = s.readline().strip()
-                if (line == b'STOP_DATA'):
-                    break
-                data = json.loads(line.decode())
-                times.append(data['times'])
-                pressures.append(data['pressures'])
+            depth = []
+            while (True):
+                line_data = s.read_until().strip()
+                if (line_data == b'STOP_DATA'):
+                    break     
+                try:
+                    decoded = line_data.decode()
+                    print(decoded)
+                    float_data = json.loads(decoded)
+                    depth.append(float(float_data['depth']))
+                    times.append(
+                        datetime(int(float_data['year']), int(float_data['month']), int(float_data['day']), int(float_data['hour']), int(float_data["minute"]), int(float_data["second"]))
+                    )
+                except json.JSONDecodeError as e:
+                    print(f"JSON decode error: {e}")
+                except KeyError as e:
+                    print(f"Missing key in JSON data: {e}")
+                except Exception as e:
+                    print(f"Unexpected error: {e}")
 
             json_complete = {
                 "times": times,
-                "pressures": pressures
-            }   
-            s.write(b"DATA_RECEIVED")
+                "depth": depth 
+            }  
+            s.write(b"DATA_RECEIVED\n")
             data = plot_pressure_time(json_complete)
+            
             return {
                 'text': "FINISHED",
                 'status': 1,
@@ -98,4 +112,5 @@ def status(s:Serial):
 
 def send(s: Serial, msg: str):
     s.reset_output_buffer()
+    s.reset_input_buffer()
     s.write(f'{msg}\n'.encode('utf-8'))

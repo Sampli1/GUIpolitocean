@@ -3,6 +3,7 @@ from flask import render_template, request
 
 @app.route("/")
 def main():
+
     return render_template('GUI.html')
 
 @app.route("/ROV")
