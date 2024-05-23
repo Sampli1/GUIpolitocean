@@ -6,6 +6,10 @@ span {
     background-color: #16679C !important;
 }
 
+.listening {
+    background-color: #770000 !important;
+}
+
 .immersion label {
     cursor: wait !important;
 }
@@ -61,5 +65,5 @@ span {
     color: white;
     display: flex;
     flex-direction: column;
+    margin: 10px;
 }
-

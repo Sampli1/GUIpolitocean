@@ -33,9 +33,9 @@ function areObjectsEqual(obj1, obj2) {
 
 function loadProfile(num) { 
     prof = `${num}`;
+    // I'm not crazy, is a way to do deep copy of an object
     if (copy == undefined) copy = JSON.parse(JSON.stringify(info["PID"]));
     document.querySelector(".checkbox").checked = copy[prof]["enabled"]
-    sub_but.classList.add("disabled")
     Object.keys(copy[`${num}`]["settings"]).forEach(el => document.querySelector(`#${el}`).value = parseFloat(copy[`${num}`]["settings"][el]))
 }
 
@@ -48,7 +48,7 @@ async function submit() {
     let active = Object.keys(copy).find(el => copy[el]["enabled"])
 
     if (!active) {
-        alert("Controllore disattivato, mando primo profilo spento")   
+        alert("DEACTIVATED PID")   
         mqtt_c.publish('PID/', JSON.stringify(copy["0"]));
     } else {
         mqtt_c.publish('PID/', JSON.stringify(copy[active]));
@@ -127,23 +127,4 @@ function PIDLoader() {
             checkSubmit();
         });
     });
-
-
 }
-
-
-const container = document.querySelector('.window');
-
-const observer = new MutationObserver((mutationsList) => {
-    for (const mutation of mutationsList) {
-        if (mutation.type === 'childList') {
-            const newElement = container.querySelector('#PID_form');
-            if (newElement) {
-                PIDLoader()
-                observer.disconnect();
-            }
-        }
-    }
-});
-
-observer.observe(container, { childList: true });

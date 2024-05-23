@@ -1,5 +1,5 @@
 from app import app
-from flask import jsonify, request, make_response
+from flask import jsonify, request
 import json
 import os
 
@@ -20,4 +20,4 @@ def setData():
     with open(file, 'w') as json_file:
         json.dump(data, json_file, indent=4)
 
-    return make_response(jsonify({ "text": "file updated" }), 200)  
+    return jsonify({ "text": "file updated" }), 200  

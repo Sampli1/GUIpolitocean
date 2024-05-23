@@ -8,12 +8,6 @@ addEventListener("resize", (event) => {
     body.style.height = `${h}px`;
 });
 
-async function change(page) {
-    if (page == page_now) return;
-    if (page_now !== "home") document.getElementsByClassName(page_now)[0].classList.toggle("hide");
-    document.getElementsByClassName(page)[0].classList.toggle("hide");
-    page_now = page;
-}
 
 
 function switching(id) {

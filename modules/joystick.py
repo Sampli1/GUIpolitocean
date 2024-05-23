@@ -1,6 +1,5 @@
 from app import app
-from flask import Response, render_template, jsonify, make_response, request
-from flask_socketio import emit
+from flask import jsonify, make_response
 from utils_rov.controller import ROVController
 import threading
 

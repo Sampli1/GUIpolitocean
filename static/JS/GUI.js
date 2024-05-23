@@ -2,8 +2,7 @@ let info;
 let script = document.currentScript;
 let fullUrl = script.src;
 let jsonUrl = fullUrl.replace("JS/GUI.js", "info.json");
-let pages = ["ROV", "FLOAT", "PID"];
-
+let pages = ["ROV", "FLOAT", "PID", "TASK_1", "TASK_2"];
 
 // [UTILS]
 async function getRequest(url = '') {
@@ -39,6 +38,13 @@ function keep_alive_server() {
 
 
 // [PAGES]
+async function change(page) {
+    if (page == page_now) return;
+    if (page_now !== "home") document.getElementsByClassName(page_now)[0].classList.toggle("hide");
+    document.getElementsByClassName(page)[0].classList.toggle("hide");
+    page_now = page;
+}
+
 async function loadPages(page) {
     page_now = pages[page];
     const newpage = await (await fetch(page)).text();
@@ -47,6 +53,27 @@ async function loadPages(page) {
     let wh = document.querySelectorAll(".window")[0];
     wh.append(html.body.firstChild);
 }
+
+
+// [DYNAMIC PAGES HANDLER]
+const container = document.querySelector('.window');
+
+const observer = new MutationObserver((mutationsList) => {
+    for (const mutation of mutationsList) {
+        if (mutation.type === 'childList') {
+            const task = container.querySelector("#TASK_2_FORM")
+            if (task) {
+                Task1Loader()
+                PIDLoader()
+                observer.disconnect();
+            }
+        }
+    }
+});
+
+observer.observe(container, { childList: true });
+
+
 
 // [CONTROLLER]
 async function statusController() {
@@ -68,21 +95,21 @@ window.onload = async () => {
 
     // Load Info
     info = await getRequest(jsonUrl);
-
     console.log(info)
 
     // Load pages    
     for (let i = 0; i < pages.length; i++) loadPages(pages[i]);
     page_now = "home";
        
-    // loadProfile(1)
-
     // Routines
     let refresh = 2000;
     setInterval(statusFLOAT, refresh);
     setInterval(statusController, refresh);
     setInterval(keep_alive_server, refresh + 1000);
 }
+
+
+
 
 
 // const socket = io("ws://127.0.0.1:5000",{

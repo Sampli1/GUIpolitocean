@@ -1,9 +1,9 @@
 from app import app
 from flask import jsonify, make_response, request
 import serial
-from utils_float.float import start_communication, send, status
+from utils_float.float import start_communication, send, status, listen, reset
 
-s = serial.Serial(timeout= 10)
+s = serial.Serial(timeout= 2)
 
 data = {'code': "FLOAT", 'status': 0, 'text': "" }
 
@@ -35,16 +35,19 @@ def float_status():
         data['text'] = 'SERIAL NOT OPENED'
         return make_response(jsonify(data), 200)
     sts = status(s)
-    if sts['text'] == "FINISHED":    
-        imgdata = {
-                'code': data['code'],
-                'status': sts['status'],
-                'data': sts['data'],
-                'text': sts['text']   
-            }
-        return make_response(jsonify(imgdata), 201)
-    
     data['status'] = sts['status']
     data['text'] = sts['text']
     return make_response(jsonify(data), 201)
 
+@app.route('/FLOAT/listen')
+def float_listen():
+    sts = listen(s)
+    imgdata = {
+            'code': data['code'],
+            'status': sts['status'],
+            'data': sts['data'],
+            'text': sts['text']   
+        }
+    if sts['text'] == "FINISHED":
+        reset()
+    return make_response(jsonify(imgdata), 201)

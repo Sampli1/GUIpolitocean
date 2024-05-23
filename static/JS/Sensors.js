@@ -119,7 +119,6 @@ mqtt_c.on("connect", () => {
 });
 
 mqtt_c.on('message', function (topic, message) {
-    // Ottieni il timestamp attuale in millisecondi
     let text = message.toString()
     switch (topic) {
         case "depth/":
