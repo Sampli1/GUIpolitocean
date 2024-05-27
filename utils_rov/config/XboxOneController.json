@@ -85,5 +85,37 @@
                 "D-Pad-Right"
             ]
         }    
-    }    
+    }, 
+    "Wireless Controller": {
+        "Linux": {
+            "buttons": [
+                "A",
+                "B",
+                "X",
+                "Y",
+                "LS",
+                "RS",
+                "LB",
+                "Back",
+                "UPLOAD",
+                "UPLOAD",
+                "UPLOAD",
+                "UPLOAD"
+            ],
+            "axes": [
+                "LSB-X",
+                "LSB-Y",
+                "LT",
+                "RSB-X",
+                "RSB-Y",
+                "RT"
+            ],
+            "joyhat": [
+                "D-Pad-Up",
+                "D-Pad-Down",
+                "D-Pad-Left",
+                "D-Pad-Right"
+            ]
+        }
+    }
 }

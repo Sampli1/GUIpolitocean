@@ -59,10 +59,14 @@
   cursor: not-allowed !important;
 }
 
-.enabled {
+.clickable {
   background-color: #282E33;
 }
 
-.enabled label {
+.clickable label {
   cursor: pointer !important;
+}
+
+.stoppable {
+  background-color: #AE2E24;
 }

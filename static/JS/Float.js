@@ -59,23 +59,29 @@ async function statusFLOAT() {
             case "CONNECTED":
                 serial.classList.add("on");
                 ready.classList.remove("on");                
-                for (let i = 0; i < drop.length; i++) drop[i].classList.remove("enabled");
+                for (let i = 0; i < drop.length; i++) {
+                    drop[i].classList.remove("clickable");
+                    drop[i].classList.add("disabled");
+                }
                 mux = 0;
                 break;
 
             case "CONNECTED&READY":
                 serial.classList.add("on");
                 ready.classList.add("on");                
-                for (let i = 0; i < drop.length; i++) drop[i].classList.add("enabled");
+                for (let i = 0; i < drop.length; i++) {
+                    drop[i].classList.add("clickable");
+                    drop[i].classList.remove("disabled");
+                }
                 mux = 1;
                 break;
             case "IMMERSION":
-                for (let i = 0; i < drop.length; i++) drop[i].classList.remove("enabled");
+                for (let i = 0; i < drop.length; i++) drop[i].classList.remove("clickable");
                 mux = 0;
                 immersion.classList.add("immersion");
                 break;
             case "UPLOAD_DATA":
-                for (let i = 0; i < drop.length; i++) drop[i].classList.remove("enabled");
+                for (let i = 0; i < drop.length; i++) drop[i].classList.remove("clickable");
                 mux = 0;
                 listen.classList.add("listening");
                 listening = 1;
@@ -93,7 +99,7 @@ async function statusFLOAT() {
     }
 }
 
-let msgs = ["GO", "SEND_DATA_ABORT", "SWITCH_AUTO_MODE", "DATA_ABORT", "TRY_UPLOAD"]
+let msgs = ["GO", "SWITCH_AUTO_MODE", "TRY_UPLOAD", "BALANCE"]
 
 async function msg(e, msg_id) {
     if (!mux) {

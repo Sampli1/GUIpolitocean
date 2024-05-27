@@ -22,7 +22,7 @@
         <div class="camera_p">
             <div id="c0" class="screen" onclick="switching('camera_0')">
                 <div class="title" >Camera 0</div>
-                <img  id="camera_0" src="http://10.0.0.254:8080/stream" />
+                <img  id="camera_0" class="rotate180" src="http://10.0.0.254:8079/stream" />
             </div>
         </div>
     </div>
@@ -30,13 +30,13 @@
         <div class="camera_s">
             <div class="screen" id="c1" onclick="switching('camera_1')">
                 <div class="title" >Camera 1</div>
-                <img  id="camera_1" src="http://10.0.0.254:8083/stream"  />
+                <img  id="camera_1" class="rotate180" src="http://10.0.0.254:8080/stream"  />
             </div>
-        </div>
+        </div>  
         <div class="camera_s">
             <div id="c2" class="screen" onclick="switching('camera_2')">
                 <div class="title" >Camera 2</div>
-                <img id="camera_2" src="http://10.0.0.254:8084/stream" />
+                <img id="camera_2" src="http://10.0.0.254:8078/stream" />
             </div>
         </div>
     </div>
@@ -75,6 +75,32 @@
                     </div>
                 </div>
             </div>
+            <div class="container">
+                <div class="title">Photogrammetry</div>
+                <div class="elenco">
+                    <div class="cat status PHOTO clickable" onclick="startPhotogrammetry(this)">
+                        <label>
+                        <span class="start_stop">
+                            Start
+                        </span>
+                        </label>    
+                    </div>
+                    <div class="cat status">
+                        <label>
+                            <span class="photo_status">
+                                NOT STARTED
+                            </span>
+                        </label>
+                    </div>
+                    <div class="cat status">
+                        <label>
+                            <span class="photo_counter">
+                                0
+                            </span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
 </div>

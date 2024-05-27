@@ -88,14 +88,14 @@ class ROVController():
         # print(id_axes, value)
         #mando direttamente i due grilletti
         if id_axes in ['LT', 'RT']:
-            if value>0 and self.wrist_stop==0:
+            if value > 0 and self.wrist_stop == 0:
                 command = self.__joystick.commands["axes"][id_axes]
-                self.wrist_stop=1
+                self.wrist_stop = 1
                 if command:
                     print(command)
                     self.__mqttClient.publish("commands/", command)
-            elif value<0 and self.wrist_stop==1:
-                self.wrist_stop=0
+            elif value < 0 and self.wrist_stop == 1:
+                self.wrist_stop = 0
                 command = "STOP_WRIST" ##
                 print(command)
                 self.__mqttClient.publish("commands/", command)

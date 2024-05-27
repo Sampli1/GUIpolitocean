@@ -23,7 +23,7 @@
 
 
 .div1 { 
-    grid-area: 1 / 9 / 9 / 13; 
+    grid-area: 1 / 9 / 7 / 13; 
     background-color: #101214;
     gap: 10px;
     padding: 10px;
@@ -118,6 +118,13 @@
     border-radius: 10px;
 }
 
+.rotate180 {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    transform: rotate(180deg);
+}
 
 .div3 {
     grid-area: 9 / 1 / 13 / 9;
@@ -146,7 +153,7 @@ img {
 
 
 .div4 { 
-    grid-area: 9 / 9 / 13 / 13;
+    grid-area: 7 / 9 / 13 / 13;
     background-color: #101214;
     padding: 10px;
     display: flex;
@@ -154,6 +161,7 @@ img {
     flex-direction: column;
     justify-content: start;
     flex-wrap: wrap;
+    gap: 20px;
     position: relative;
 }
 

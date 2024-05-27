@@ -2,7 +2,7 @@ let info;
 let script = document.currentScript;
 let fullUrl = script.src;
 let jsonUrl = fullUrl.replace("JS/GUI.js", "info.json");
-let pages = ["ROV", "FLOAT", "PID", "TASK_1", "TASK_2"];
+let pages = ["ROV", "FLOAT", "PID", "TASK_1"];
 
 // [UTILS]
 async function getRequest(url = '') {
@@ -61,7 +61,7 @@ const container = document.querySelector('.window');
 const observer = new MutationObserver((mutationsList) => {
     for (const mutation of mutationsList) {
         if (mutation.type === 'childList') {
-            const task = container.querySelector("#TASK_2_FORM")
+            const task = container.querySelector("#TASK_1_FORM")
             if (task) {
                 Task1Loader()
                 PIDLoader()

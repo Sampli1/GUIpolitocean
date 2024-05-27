@@ -45,7 +45,7 @@ buttons:
     onPress: "DPAD_RIGHT"
     onRelease:
   UPLOAD:
-    onPress:
+    onPress: "SNAP"
     onRelease:
 axes:
   LSB-X: "Y"

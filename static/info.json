@@ -22,7 +22,7 @@
     },
     "PID": {
         "1": {
-            "enabled": true,
+            "enabled": false,
             "settings": {
                 "denFHeave2": 0.9707346821748989,
                 "numFHeave1": 0.1035893968397062,

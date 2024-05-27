@@ -109,13 +109,12 @@ function startGraph() {
 }
 
 const mqtt_c = mqtt.connect("mqtt://10.0.0.254:9000");
-// const mqtt_c = mqtt.connect("mqtt://127.0.0.1:8080");
 
 mqtt_c.on("connect", () => {
     console.info("[MQTT] Ready");
     mqtt_c.subscribe("depth/");
     mqtt_c.subscribe("debug/");
-    startGraph()
+    mqtt_c.subscribe("state_commands/");
 });
 
 mqtt_c.on('message', function (topic, message) {
@@ -124,11 +123,16 @@ mqtt_c.on('message', function (topic, message) {
         case "depth/":
             console.log(text)
             console.log(parseFloat(text))
+            if (lastDate.length == 1) startGraph();
             getNewSeries(lastDate[0], parseFloat(text), 0, data[0]);
             charts[0].updateSeries([{data: data[0]}]);
             break;
         case "debug/":
-            console.log(text)
+            console.log(text);
+            break;
+        case "state_commands/":
+            handleTask(text);
+            break;
   }
 })
 

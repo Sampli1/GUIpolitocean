@@ -1,3 +1,5 @@
+// * TASK 3.4
+
 function Task1Loader() {
     document.getElementById('fileInput').addEventListener('change', function(event) {
         uploadFile(event);
@@ -54,13 +56,58 @@ function uploadFile(event) {
     }
 }
 
+
+// * TASK 3.3
+
+let photo_interval;
+let started = 0;
+let processing = 0;
+let counter = 0;
+
 async function statusPhotogrammetry() {
-    data = await getRequest("/TASK_2/status");
-    console.log(data);
+    data = await getRequest("/PHOTO/status");
+    label = document.querySelector(".photo_status");
+    button = document.querySelector(".cat.status.PHOTO");
+    button_text = document.querySelector(".start_stop");
+    sts = data["status"];
+    console.log(data)
+    switch (sts) {
+        case "FINISHED":
+            button.classList.remove("stoppable");
+            button.classList.add("clickable");
+            processing = 0;
+            started = 0;
+            button_text.innerHTML = "Start";
+            clearInterval(photo_interval);
+            break;
+    }
+    label.innerHTML = sts;
 }
 
+async function startPhotogrammetry(element) {
+    if (processing) return;
+    button_text = element.querySelector(".start_stop");
+    if (started) {
+        data = await getRequest("/PHOTO/stop");
+        button_text.innerHTML = "Waiting";
+        element.classList.remove("stoppable");
+        element.classList.remove("clickable");
+        element.classList.add("disabled");
+        processing = 1;
+        return;    
+    }
+    data = await getRequest("/PHOTO/start");
+    button_text.innerHTML = "Stop";
+    element.classList.add("stoppable");
+    photo_interval = setInterval(statusPhotogrammetry, 2000);
+    started = 1;
+    counter = 0;
+    document.querySelector(".photo_counter").innerHTML = counter;
+}
 
-async function startPhotogrammetry() {
-    data = await getRequest("/TASK_2/start");
-    setInterval(statusPhotogrammetry, 2000);
+function handleTask(cmd) {
+    if (cmd.search("SNAP") == 0 && started && !processing) {
+        counter++;
+        document.querySelector(".photo_counter").innerHTML = counter;
+    }
 }
