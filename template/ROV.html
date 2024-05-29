@@ -1,15 +1,51 @@
 <div class="wrapper ROV hide">
 <div class="max">
     <div class="div1">
-        <div class="tl">
-            <div id="chart_pres"></div>
-            
+        <div class="indicators">
+            <div id="attitude"></div>
+            <div id="compass"></div>
         </div>
-        <!-- <div class="tl">
-            <div id="chart_temp"></div>
 
+        <div class="container"> 
+            <div class="title">Stopwatch</div>
+            <div class="stopwatch">
+            <div class="display-container">
+                <p id="display">00:00:00:00</p>
+            </div>
+                <div class="buttons">
+                <button id="startButton" onclick="startStopwatch()">Start</button>
+                <button id="resetButton" onclick="resetStopwatch()">Reset</button>
+            </div>
+            </div>
         </div>
-        <div class="tl">
+
+        <div class="sensors">
+            <div class="title">Sensors</div>
+            <div class="sensor" id="sensor_depth">
+                <div class="flex_s">
+                    <img src="{{url_for('static', filename ='SVG/Depth.svg')}}" />
+                    <label>
+                        Depth:
+                    </label>
+                </div>
+                <label id="data_depth">
+                    
+                </label>
+            </div>
+            <div class="sensor" id="sensor_tempExt">
+                <div class="flex_s">
+                    <img src="{{url_for('static', filename ='SVG/temperature.svg')}}" />
+                    <label>
+                        Temperature:
+                    </label>
+                </div>
+                <label id="data_tempExt">
+                    
+                </label>
+            </div>
+        </div>
+
+        <!-- <div class="tl">
             <div id="chart_12v"></div>
 
         </div>
@@ -66,10 +102,24 @@
             <div class="container">
                 <div class="title">Status</div>
                 <div class="elenco">
-                    <div class="cat status CONTROLLER">
+                    <div class="cat status STATUSES">
                         <label>
                         <span>
-                            Joystick
+                            JOYSTICK
+                        </span>
+                        </label>    
+                    </div>
+                    <div class="cat status STATUSES">
+                        <label>
+                        <span>
+                            ARMED
+                        </span>
+                        </label>    
+                    </div>
+                    <div class="cat status STATUSES">
+                        <label>
+                        <span>
+                            PID
                         </span>
                         </label>    
                     </div>

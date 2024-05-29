@@ -65,11 +65,11 @@ let processing = 0;
 let counter = 0;
 
 async function statusPhotogrammetry() {
-    data = await getRequest("/PHOTO/status");
-    label = document.querySelector(".photo_status");
-    button = document.querySelector(".cat.status.PHOTO");
-    button_text = document.querySelector(".start_stop");
-    sts = data["status"];
+    const data = await getRequest("/PHOTO/status");
+    const label = document.querySelector(".photo_status");
+    const button = document.querySelector(".cat.status.PHOTO");
+    const button_text = document.querySelector(".start_stop");
+    let sts = data["status"];
     console.log(data)
     switch (sts) {
         case "FINISHED":
@@ -86,7 +86,7 @@ async function statusPhotogrammetry() {
 
 async function startPhotogrammetry(element) {
     if (processing) return;
-    button_text = element.querySelector(".start_stop");
+    const button_text = element.querySelector(".start_stop");
     if (started) {
         data = await getRequest("/PHOTO/stop");
         button_text.innerHTML = "Waiting";

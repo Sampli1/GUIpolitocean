@@ -27,13 +27,12 @@ def plot_pressure_time(data):
 def start_communication(s: Serial):
     if (s.is_open):
         return 1
-    with open(os.path.dirname(os.path.abspath(__file__)) +"/config/float.json") as jmaps:
+    with open(os.path.dirname(os.path.abspath(__file__)) + "/config/float.json") as jmaps:
         conf = json.load(jmaps)
         s.baudrate = conf['baudrate']
-        dir = f"{conf['port']}"
         for i in range(0, 5):
             try:
-                s.port = f"{dir}{i}"
+                s.port = f"{conf['port']}{i}"
                 s.open()
                 val = status(s)
                 return val

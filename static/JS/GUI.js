@@ -3,6 +3,7 @@ let script = document.currentScript;
 let fullUrl = script.src;
 let jsonUrl = fullUrl.replace("JS/GUI.js", "info.json");
 let pages = ["ROV", "FLOAT", "PID", "TASK_1"];
+let stsObj;
 
 // [UTILS]
 async function getRequest(url = '') {
@@ -37,7 +38,7 @@ function keep_alive_server() {
 }
 
 
-// [PAGES]
+// [DYNAMIC PAGES HANDLER]
 async function change(page) {
     if (page == page_now) return;
     if (page_now !== "home") document.getElementsByClassName(page_now)[0].classList.toggle("hide");
@@ -54,17 +55,18 @@ async function loadPages(page) {
     wh.append(html.body.firstChild);
 }
 
-
-// [DYNAMIC PAGES HANDLER]
 const container = document.querySelector('.window');
 
 const observer = new MutationObserver((mutationsList) => {
     for (const mutation of mutationsList) {
         if (mutation.type === 'childList') {
-            const task = container.querySelector("#TASK_1_FORM")
-            if (task) {
-                Task1Loader()
-                PIDLoader()
+            const pid = container.querySelector("#PID_form");
+            const task = container.querySelector("#TASK_1_FORM");
+            // Se l'ultima pagina è pronta, carica i contenuti in tutte le pagine
+            if (task && pid) {
+                ROVLoader();
+                Task1Loader();
+                PIDLoader();
                 observer.disconnect();
             }
         }
@@ -75,15 +77,23 @@ observer.observe(container, { childList: true });
 
 
 
-// [CONTROLLER]
+// [STATUSES MANAGMENT]
+
+// * Trasforma il vettore in oggetto 
+
 async function statusController() {
     let response = await fetch("/CONTROLLER/start_status");
     let status = await response.json();
-    const joystick = document.getElementsByClassName("status CONTROLLER")[0];
     console.log(status);
-    if (status['status']) joystick.classList.add("on")
-    else joystick.classList.remove("on");
+    stsObj["JOYSTICK"] = status["status"];
 }
+
+
+
+
+
+
+// [MAIN]
 
 window.onload = async () => {
     // Force dimensions of window
@@ -93,9 +103,14 @@ window.onload = async () => {
     body.style.width = `${w}px`; 
     body.style.height = `${h}px`;
 
-    // Load Info
+    // Load Info and divide
     info = await getRequest(jsonUrl);
     console.log(info)
+    stsObj = info["statuses"].reduce((obj, key) => {
+        obj[key] = false;
+        return obj;
+    }, {});
+
 
     // Load pages    
     for (let i = 0; i < pages.length; i++) loadPages(pages[i]);

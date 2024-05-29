@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='./CSS/switch.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='./CSS/dropdown.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='./CSS/task_1.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='./node_modules/flight-indicators-js/css/flight-indicators.css')}}"/>
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='./po.png')}}">
 </head>
 <body>
@@ -29,12 +30,13 @@
     </div>
     <script src="{{url_for('static', filename='./node_modules/socket.io-client/dist/socket.io.js')}}"></script>
     <script src="{{url_for('static', filename='./node_modules/mqtt/dist/mqtt.min.js')}}"></script>
-    <script src="{{url_for('static', filename='./node_modules/apexcharts/dist/apexcharts.min.js')}}"></script>
+    <script src="{{url_for('static', filename='./node_modules/flight-indicators-js/js/flight-indicators.js')}}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='./JS/GUI.js')}}" ></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='./JS/mqtt.js')}}" ></script>
     <script type="text/javascript" src="{{ url_for('static', filename='./JS/ROV.js')}}" ></script>
     <script type="text/javascript" src="{{ url_for('static', filename='./JS/Float.js')}}" ></script>
-    <script type="text/javascript" src="{{ url_for('static', filename='./JS/Sensors.js')}}" ></script>
     <script type="text/javascript" src="{{ url_for('static', filename='./JS/PID.js')}}" ></script>
     <script type="text/javascript" src="{{ url_for('static', filename='./JS/Tasks.js')}}" ></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='./JS/Stopwatch.js')}}" ></script>
  </body>
 </html>

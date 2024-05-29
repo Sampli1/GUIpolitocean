@@ -31,7 +31,7 @@ class ROVController():
                                 "YAW" : 0,
                                 "Z" : 0
                                 }
-        self.wrist_stop = 0 #se = 0 non ho già mandato stop
+        self.armed = 0
         self.d_pad = {
             "UP" : "TRIM_PITCH_FORWARD",
             "DOWN" : "TRIM_PITCH_BACKWARD",
@@ -87,21 +87,17 @@ class ROVController():
     def __on_axisChanged(self, id_axes, value):
         # print(id_axes, value)
         #mando direttamente i due grilletti
+        print(f"axes: {id_axes}, value: {value}")
         if id_axes in ['LT', 'RT']:
-            if value > 0 and self.wrist_stop == 0:
-                command = self.__joystick.commands["axes"][id_axes]
-                self.wrist_stop = 1
-                if command:
-                    print(command)
-                    self.__mqttClient.publish("commands/", command)
-            elif value < 0 and self.wrist_stop == 1:
-                self.wrist_stop = 0
-                command = "STOP_WRIST" ##
-                print(command)
-                self.__mqttClient.publish("commands/", command)
+            value = (value + 32767)//2
+            if self.__joystick.commands['axes'][id_axes] == 'Z_UP':
+                value = value*-1
+            if abs(value) < AXES_DEADZONE:
+                value=0
+            self.__joystick.axesStates["Z"] = value
         #gli altri assi vengono solo salvati e poi inviati nel loop        
-        else:
-            if((id_axes in ['LSB-X', 'LSB-Y','RSB-X', 'RSB-Y']) and abs(value) < AXES_DEADZONE): #zona morta x/y
+        elif id_axes in ['LSB-X', 'LSB-Y','RSB-X']:
+            if(abs(value) < AXES_DEADZONE): #zona morta x/y
                 value = 0
                 
             self.__joystick.axesStates[self.__joystick.commands['axes'][id_axes]] = value
@@ -109,10 +105,16 @@ class ROVController():
     def __on_buttonChanged(self, id_button, state):
         if id_button == "GUIDE":   #altrimenti quando si preme uno dei due assi crasha
             return
-        if id_button == "A":
-            self.shift = not self.shift
-            return
-        if state:
+        if id_button == "UPLOAD": #ARM
+            if state:
+                if self.armed:
+                    command = "DISARM"
+                else:
+                    command = "ARM"
+                self.armed = not self.armed
+            else:
+                return
+        elif state:
             command = self.__joystick.commands["buttons"][id_button]["onPress"]
         else:
             command = self.__joystick.commands["buttons"][id_button]["onRelease"]

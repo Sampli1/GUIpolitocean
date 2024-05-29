@@ -1,5 +1,5 @@
 from app import app
-from flask import jsonify, make_response, request
+from flask import jsonify, request
 import serial
 from utils_float.float import start_communication, send, status, listen, reset
 
@@ -12,12 +12,12 @@ def float_msg():
     if (not s.is_open):
         data['status'] = False
         data['text'] = "SERIAL NOT OPENED"
-        return make_response(jsonify(data), 400)
+        return jsonify(data), 400
     msg = request.args.get('msg')
-    send(s, msg=msg)
+    send(s, msg)
     data['status'] = True
     data['text'] = 'SUCCESS'
-    return make_response(jsonify(data), 201)
+    return jsonify(data), 201
     
 
 @app.route('/FLOAT/start')
@@ -25,7 +25,7 @@ def float_start():
     status = start_communication(s)
     data['status'] = status['status']
     data['text'] = status['text']
-    return make_response(jsonify(data), 201)
+    return jsonify(data), 201
 
 
 @app.route('/FLOAT/status')
@@ -33,11 +33,11 @@ def float_status():
     if (not s.is_open):
         data['status'] = False
         data['text'] = 'SERIAL NOT OPENED'
-        return make_response(jsonify(data), 200)
+        return jsonify(data), 200
     sts = status(s)
     data['status'] = sts['status']
     data['text'] = sts['text']
-    return make_response(jsonify(data), 201)
+    return jsonify(data), 201
 
 @app.route('/FLOAT/listen')
 def float_listen():
@@ -50,4 +50,4 @@ def float_listen():
         }
     if sts['text'] == "FINISHED":
         reset()
-    return make_response(jsonify(imgdata), 201)
+    return jsonify(imgdata), 201
