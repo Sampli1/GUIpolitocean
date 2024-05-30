@@ -7,7 +7,7 @@ let cs = 0;
 
 function startStopwatch() { 
     if (!start) {
-        timer = setInterval(displayStopwatch, 1);    
+        timer = setInterval(displayStopwatch, 10);    
         start = 1;
     }
     else {
@@ -16,6 +16,7 @@ function startStopwatch() {
     }
     document.getElementById("startButton").innerHTML = start ? "Pause" : "Start";
 }
+
 
 function displayStopwatch() {
   cs++;

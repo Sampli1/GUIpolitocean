@@ -84,8 +84,7 @@ observer.observe(container, { childList: true });
 async function statusController() {
     let response = await fetch("/CONTROLLER/start_status");
     let status = await response.json();
-    console.log(status);
-    stsObj["JOYSTICK"] = status["status"];
+    updateStatusesROV({"JOYSTICK": status["status"]});
 }
 
 
