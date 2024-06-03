@@ -2,21 +2,27 @@ from serial import Serial, SerialException
 import json
 import time
 import matplotlib.pyplot as plt
-from datetime import datetime
+import matplotlib.dates as mdates
+from datetime import datetime, timezone
 import os
 from io import BytesIO
 import base64
+import pytz
 import threading
 
 
-def plot_pressure_time(data):
-    depth = data['depth']
-    time = data['times']    
+def plot_pressure_time(data, arg, ylabel):
+    depth = data[arg]
+    time = data['times']
+    time = [datetime.strptime(t, '%Y-%m-%dT%H:%M:%SZ') for t in time]
     plt.plot(time, depth, linestyle='-', marker='o')
-    plt.xlabel('Time')
-    plt.ylabel('Depth (m)')
+    plt.xlabel('Time (UTC)')
+    plt.ylabel(ylabel)
     plt.grid()
     plt.gcf().autofmt_xdate()
+    myFmt = mdates.DateFormatter('%Y-%m-%d %H:%M:%S')
+    plt.gca().xaxis.set_major_formatter(myFmt)
+    plt.gca().xaxis.set_major_locator(mdates.AutoDateLocator())
     buffer = BytesIO()
     plt.savefig(buffer, format='png')
     buffer.seek(0)
@@ -34,26 +40,42 @@ def start_communication(s: Serial):
             try:
                 s.port = f"{conf['port']}{i}"
                 s.open()
-                val = status(s)
+                val = msg_status(s, 'STATUS')
                 return val
             except SerialException:
                 continue
         return {
             'text': "NO USB",
-            'status':0
+            'status': 0
         }
      
 
-def status(s: Serial):
+def msg_status(s: Serial, msg: str):
     try:
-        s.write(b'STATUS\n')
+        s.write(f'{msg}\n'.encode('utf-8'))
         time.sleep(0.03)
-        line = s.readline().strip()
+        line = s.readline().strip().decode()
+        if msg == 'SEND_PACKAGE':
+            float_data = json.loads(line)
+            print(float_data)
+            times = datetime(
+                int(float_data['year']), 
+                int(float_data['month']), 
+                int(float_data['day']), 
+                int(float_data['hour']), 
+                int(float_data["minute"]), 
+                int(float_data["second"])
+            ).strftime('%Y-%m-%dT%H:%M:%SZ')
+            depth = float_data['depth']
+            pressure = float_data['pressure']
+            cn = float_data['company_number']
+            line = {"times": times, "depth": depth, "pressure": pressure, "company_name": cn}
+            print(line)
+
         return {
-            'text': line.decode(),
+            'text': line,
             'status': 1
         }
-
     except SerialException:
         s.close()
         return {
@@ -90,6 +112,8 @@ def handle_upload_data(s: Serial):
     s.write(b"LISTENING\n")
     times = []
     depth = []
+    pressure = []
+    cn = ''
     while True:
         line_data = s.readline().strip()
         if line_data == b'STOP_DATA':
@@ -107,19 +131,26 @@ def handle_upload_data(s: Serial):
                 int(float_data['hour']), 
                 int(float_data["minute"]), 
                 int(float_data["second"])
-            ))
+            ).strftime('%Y-%m-%dT%H:%M:%SZ'))
+            pressure.append(float_data['pressure'])
+            if cn == '':
+                cn = float_data["company_number"]
+
         except (json.JSONDecodeError, KeyError) as e:
             print(f"Data error: {e}")
         except (SerialException, TimeoutError):
             break
     
     s.write(b"DATA_RECEIVED\n")
-    json_complete = {"times": times, "depth": depth}
-    data = plot_pressure_time(json_complete) if times and depth else "NO_DATA"
+    json_complete = {"times": times, "depth": depth, "pressure": pressure, "company_name": cn}
+    data = [plot_pressure_time(json_complete, 'depth', 'Depth (m)'), plot_pressure_time(json_complete, 'pressure', 'Pressure (Pa)')] if times and depth else "NO_DATA"
     img_data = {
         'text': "FINISHED",
         'status': 1,
-        'data': data,
+        'data': {
+            'img': data,
+            'raw': json_complete
+        }
     }
     print("THREAD FINISHED")
     thread_active = False

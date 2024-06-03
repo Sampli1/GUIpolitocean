@@ -30,5 +30,5 @@ while true; do
     mosquitto_pub -t 'gui/' -h 127.0.0.1 -m "$json_data"
     
     # Sleep for 0.1 second
-    sleep 0.015
+    sleep 0.0001
 done

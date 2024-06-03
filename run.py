@@ -11,13 +11,14 @@ if __name__ == "__main__":
     if "Darwin" in platform.platform() or "macOS" in platform.platform():
         app.run(
             port=5000,
+            
         )
     else:
         FlaskUI(
             app=app,
             server="flask",
             fullscreen= True,
-            port=5000
+            port=5000,
         ).run()
     
 

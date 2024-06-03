@@ -14,7 +14,7 @@ async function getRequest(url = '') {
             'Accept': 'application/json',
         },
     })
-    return response.json()
+    return response.json();
 }
 
 async function postRequest(url, data) {
@@ -26,14 +26,14 @@ async function postRequest(url, data) {
         },
         body: JSON.stringify(data)
     })
-    return response.json()
+    return response.json();
 }
 
 
 
 // Need this to prevent closing of server
 function keep_alive_server() {
-    let route = "/flaskwebgui-keep-server-alive"
+    let route = "/flaskwebgui-keep-server-alive";
     getRequest(route);
 }
 
@@ -84,6 +84,7 @@ observer.observe(container, { childList: true });
 async function statusController() {
     let response = await fetch("/CONTROLLER/start_status");
     let status = await response.json();
+    console.log(status);
     updateStatusesROV({"JOYSTICK": status["status"]});
 }
 
@@ -117,7 +118,7 @@ window.onload = async () => {
        
     // Routines
     let refresh = 2000;
-    setInterval(statusFLOAT, refresh);
+    setInterval(() => statusFLOAT("STATUS"), refresh);
     setInterval(statusController, refresh);
     setInterval(keep_alive_server, refresh + 1000);
 }

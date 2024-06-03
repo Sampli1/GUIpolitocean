@@ -67,3 +67,16 @@ span {
     flex-direction: column;
     margin: 10px;
 }
+
+.raw {
+    padding: 20px;
+}
+
+h2 {
+    padding: 10px 10px 10px 10px;
+}
+
+
+.img_style {
+    margin: 10px 0 0 0;
+}

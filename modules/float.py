@@ -1,7 +1,7 @@
 from app import app
 from flask import jsonify, request
 import serial
-from utils_float.float import start_communication, send, status, listen, reset
+from utils_float.float import start_communication, send, msg_status, listen, reset
 
 s = serial.Serial(timeout= 2)
 
@@ -34,7 +34,8 @@ def float_status():
         data['status'] = False
         data['text'] = 'SERIAL NOT OPENED'
         return jsonify(data), 200
-    sts = status(s)
+    msg = request.args.get('msg')
+    sts = msg_status(s, msg)
     data['status'] = sts['status']
     data['text'] = sts['text']
     return jsonify(data), 201
