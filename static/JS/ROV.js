@@ -65,10 +65,10 @@ function PIDhandler(pidElement, val) {
     switch (val) {
         case 0:
             pidElement.classList.remove("on");
-            pidElement.classList.remove("stoppable");
+            pidElement.classList.add("stoppable");  //remove
             break;
         case 1:
-            pidElement.classList.add("stoppable");
+            pidElement.classList.remove("stoppable"); //add
             pidElement.classList.remove("on");
             break;
         case 2:
